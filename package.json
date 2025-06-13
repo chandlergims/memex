@@ -4,24 +4,39 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "dev:cron": "node server.js",
+    "build": "next build --no-lint",
     "start": "next start",
+    "start:cron": "cross-env NODE_ENV=production node server.js",
     "lint": "next lint"
   },
   "dependencies": {
+    "@privy-io/react-auth": "^2.14.1",
+    "dotenv": "^16.5.0",
+    "mongoose": "^8.15.1",
+    "multer": "^2.0.1",
+    "next": "15.3.3",
+    "next-connect": "^1.0.0",
+    "node-fetch": "^2.7.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.3"
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/mongoose": "^5.11.96",
+    "@types/multer": "^1.4.13",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
+    "@types/uuid": "^10.0.0",
+    "cross-env": "^7.0.3",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }

@@ -1,0 +1,12 @@
+[build]
+builder = "nixpacks"
+buildCommand = "npm run build"
+
+[deploy]
+startCommand = "npm run start:cron"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+
+[[cron]]
+schedule = "*/5 * * * *"
+command = "curl -X GET -H 'Authorization: Bearer $CRON_SECRET_KEY' $RAILWAY_PUBLIC_DOMAIN/api/cron/update-prices"
