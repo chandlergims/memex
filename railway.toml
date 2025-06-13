@@ -8,5 +8,5 @@ healthcheckPath = "/"
 healthcheckTimeout = 100
 
 [[cron]]
-schedule = "*/5 * * * *"
+schedule = "* * * * *"
 command = "curl -X GET -H 'Authorization: Bearer $CRON_SECRET_KEY' $RAILWAY_PUBLIC_DOMAIN/api/cron/update-prices"

@@ -8,13 +8,15 @@ interface WebSocketContextType {
   socket: Socket | null;
   isConnected: boolean;
   lastEvent: { type: string; data: any } | null;
+  lastPriceUpdate: { updatedTokens: any[]; updatedBundles: any[] } | null;
 }
 
 // Create the context with default values
 const WebSocketContext = createContext<WebSocketContextType>({
   socket: null,
   isConnected: false,
-  lastEvent: null
+  lastEvent: null,
+  lastPriceUpdate: null
 });
 
 // Custom hook to use the WebSocket context
@@ -28,6 +30,7 @@ export default function WebSocketProvider({ children }: WebSocketProviderProps) 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
   const [lastEvent, setLastEvent] = useState<{ type: string; data: any } | null>(null);
+  const [lastPriceUpdate, setLastPriceUpdate] = useState<{ updatedTokens: any[]; updatedBundles: any[] } | null>(null);
   const [connectionAttempts, setConnectionAttempts] = useState(0);
 
   useEffect(() => {
@@ -74,6 +77,13 @@ export default function WebSocketProvider({ children }: WebSocketProviderProps) 
         console.log('Received bundle:created event:', data);
         setLastEvent({ type: 'bundle:created', data });
       });
+      
+      // Listen for price update events
+      socketInstance.on('prices:updated', (data) => {
+        console.log('Received prices:updated event:', data);
+        setLastPriceUpdate(data);
+        setLastEvent({ type: 'prices:updated', data });
+      });
 
       // Save the socket instance
       setSocket(socketInstance);
@@ -96,7 +106,8 @@ export default function WebSocketProvider({ children }: WebSocketProviderProps) 
     <WebSocketContext.Provider value={{ 
       socket, 
       isConnected,
-      lastEvent
+      lastEvent,
+      lastPriceUpdate
     }}>
       {children}
     </WebSocketContext.Provider>

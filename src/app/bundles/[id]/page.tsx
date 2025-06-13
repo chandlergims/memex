@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { usePrivy } from '@privy-io/react-auth';
+import { useWebSocket } from "@/components/WebSocketProvider";
+import TimeCounter from "@/components/TimeCounter";
 
 interface Token {
   _id: string;
@@ -52,6 +54,7 @@ export default function BundleDetailsPage() {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState("");
   const { user } = usePrivy();
+  const { lastEvent } = useWebSocket();
 
   useEffect(() => {
     const fetchBundleDetails = async () => {
@@ -83,6 +86,51 @@ export default function BundleDetailsPage() {
     
     fetchBundleDetails();
   }, [bundleId]);
+  
+  // Handle WebSocket events for price updates
+  useEffect(() => {
+    if (!lastEvent || !bundleDetails) return;
+    
+    // Handle prices:updated events
+    if (lastEvent.type === 'prices:updated' && lastEvent.data?.updatedBundles) {
+      console.log('Prices updated via WebSocket:', lastEvent.data);
+      
+      // Find if this bundle was updated
+      const updatedBundle = lastEvent.data.updatedBundles.find(
+        (b: any) => b._id === bundleId
+      );
+      
+      // If this bundle was updated, update the details
+      if (updatedBundle) {
+        console.log('Updating bundle details with WebSocket data:', updatedBundle);
+        
+        // Store the updated values to avoid dependency issues
+        const newCurrentPrice = updatedBundle.currentPrice;
+        const newPriceChangePercent = updatedBundle.priceChangePercent;
+        const newLastUpdated = updatedBundle.lastUpdated;
+        
+        setBundleDetails(prevDetails => {
+          if (!prevDetails) return null;
+          
+          return {
+            ...prevDetails,
+            bundle: {
+              ...prevDetails.bundle,
+              currentPrice: newCurrentPrice,
+              priceChangePercent: newPriceChangePercent,
+              lastUpdated: newLastUpdated
+            },
+            metrics: {
+              ...prevDetails.metrics,
+              currentPrice: newCurrentPrice,
+              priceChangePercent: newPriceChangePercent
+            }
+          };
+        });
+      }
+    }
+  // Only depend on lastEvent and bundleId, not bundleDetails which changes when we update it
+  }, [lastEvent, bundleId]);
 
   const handleDelete = async () => {
     if (!bundleId || !confirm("Are you sure you want to delete this bundle?")) {
@@ -181,7 +229,10 @@ export default function BundleDetailsPage() {
           ) : bundleDetails ? (
             <div>
               {/* Bundle Header Card */}
-              <div className="bg-white shadow-md rounded-lg mb-8 overflow-hidden">
+              <div className="bg-white shadow-md rounded-lg mb-8 overflow-hidden relative">
+                <div className="absolute top-2 right-3 text-[10px] text-gray-400">
+                  <TimeCounter date={bundleDetails.bundle.createdAt} />
+                </div>
                 <div className="p-6">
                   <div className="flex items-center mb-6">
                     {/* Bundle Image (if available) */}
@@ -207,7 +258,7 @@ export default function BundleDetailsPage() {
                     <div className="flex-grow">
                       <div className="flex flex-col">
                         <div className="flex items-center">
-                          <h1 className="text-2xl font-bold uppercase">{bundleDetails.bundle.title}</h1>
+                          <h1 className="text-2xl font-bold">{bundleDetails.bundle.title}</h1>
                           <div className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium ml-3">
                             Index
                           </div>
@@ -216,8 +267,6 @@ export default function BundleDetailsPage() {
                           <p className="text-gray-600 text-sm mt-2">{bundleDetails.bundle.description}</p>
                         )}
                         <div className="flex flex-col text-sm text-gray-500 mt-2">
-                          <div>Created: {new Date(bundleDetails.bundle.createdAt).toLocaleString()}</div>
-                          <div>Last Updated: {new Date(bundleDetails.bundle.lastUpdated).toLocaleString()}</div>
                           {bundleDetails.bundle.twitterUsername && (
                             <div>Creator: @{bundleDetails.bundle.twitterUsername}</div>
                           )}
@@ -318,13 +367,13 @@ export default function BundleDetailsPage() {
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 tracking-wider">
                           Token
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 tracking-wider">
                           Price
                         </th>
-                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 tracking-wider">
                           Weight
                         </th>
                       </tr>

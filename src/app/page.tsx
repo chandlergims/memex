@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useWebSocket } from "@/components/WebSocketProvider";
+import TimeCounter from "@/components/TimeCounter";
 
 interface TokenDetails {
   _id?: string;
@@ -49,6 +50,8 @@ export default function Home() {
   const [bundlesError, setBundlesError] = useState("");
   const [activeFilter, setActiveFilter] = useState<'recent' | 'highest' | 'lowest'>('recent');
   const [newBundleId, setNewBundleId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const bundlesPerPage = 21;
 
   // Function to fetch bundles
   const fetchBundles = useCallback(async () => {
@@ -133,6 +136,38 @@ export default function Home() {
         return [newBundle, ...prevBundles];
       });
     }
+    
+    // Handle prices:updated events
+    if (lastEvent.type === 'prices:updated' && lastEvent.data?.updatedBundles) {
+      console.log('Prices updated via WebSocket:', lastEvent.data);
+      
+      // Update the bundles with the new price data
+      setBundles(prevBundles => {
+        return prevBundles.map(bundle => {
+          // Find the updated bundle data
+          const updatedBundle = lastEvent.data.updatedBundles.find(
+            (b: any) => b._id === bundle._id
+          );
+          
+          // If this bundle was updated, merge the new data
+          if (updatedBundle) {
+            return {
+              ...bundle,
+              currentPrice: updatedBundle.currentPrice,
+              priceChangePercent: updatedBundle.priceChangePercent,
+              lastUpdated: updatedBundle.lastUpdated,
+              metrics: {
+                ...bundle.metrics,
+                currentPrice: updatedBundle.currentPrice,
+                priceChangePercent: updatedBundle.priceChangePercent
+              }
+            };
+          }
+          
+          return bundle;
+        });
+      });
+    }
   }, [lastEvent]);
 
   // Helper function to render price change with arrow
@@ -156,16 +191,15 @@ export default function Home() {
   };
 
   // Get top 3 performing indexes for the podium
-  const getTopPerformers = () => {
+  // Using useMemo to recalculate when bundles change (including WebSocket updates)
+  const topPerformers = useMemo(() => {
     if (bundlesLoading || bundlesError || bundles.length === 0) return [];
     
     // Sort bundles by price change percentage (highest first)
     return [...bundles]
       .sort((a, b) => (b.metrics?.priceChangePercent || 0) - (a.metrics?.priceChangePercent || 0))
       .slice(0, 3); // Get top 3
-  };
-  
-  const topPerformers = getTopPerformers();
+  }, [bundles, bundlesLoading, bundlesError]);
   
   return (
     <div className="min-h-screen bg-white">
@@ -200,9 +234,9 @@ export default function Home() {
                       </div>
                     )}
                   </div>
-                  <div className="text-center">
+                      <div className="text-center">
                     <div className="bg-gray-100 w-24 h-20 flex flex-col items-center justify-center rounded-t-md shadow-sm">
-                      <div className="text-sm font-bold text-gray-800 uppercase truncate max-w-[80px]">{topPerformers[1]?.title}</div>
+                      <div className="text-sm font-bold text-gray-800 truncate max-w-[80px]">{topPerformers[1]?.title}</div>
                       <div className="text-green-600 font-bold text-sm">+{topPerformers[1]?.metrics?.priceChangePercent.toFixed(2)}%</div>
                     </div>
                     <div className="bg-silver h-6 w-24 flex items-center justify-center rounded-b-md shadow-sm">
@@ -234,7 +268,7 @@ export default function Home() {
                   </div>
                   <div className="text-center">
                     <div className="bg-yellow-50 w-28 h-24 flex flex-col items-center justify-center rounded-t-md shadow-sm">
-                      <div className="text-base font-bold text-gray-800 uppercase truncate max-w-[90px]">{topPerformers[0]?.title}</div>
+                      <div className="text-base font-bold text-gray-800 truncate max-w-[90px]">{topPerformers[0]?.title}</div>
                       <div className="text-green-600 font-bold text-sm">+{topPerformers[0]?.metrics?.priceChangePercent.toFixed(2)}%</div>
                     </div>
                     <div className="bg-gold h-7 w-28 flex items-center justify-center rounded-b-md shadow-sm">
@@ -266,7 +300,7 @@ export default function Home() {
                   </div>
                   <div className="text-center">
                     <div className="bg-orange-50 w-20 h-16 flex flex-col items-center justify-center rounded-t-md shadow-sm">
-                      <div className="text-sm font-bold text-gray-800 uppercase truncate max-w-[70px]">{topPerformers[2]?.title}</div>
+                      <div className="text-sm font-bold text-gray-800 truncate max-w-[70px]">{topPerformers[2]?.title}</div>
                       <div className="text-green-600 font-bold text-sm">+{topPerformers[2]?.metrics?.priceChangePercent.toFixed(2)}%</div>
                     </div>
                     <div className="bg-bronze h-5 w-20 flex items-center justify-center rounded-b-md shadow-sm">
@@ -281,45 +315,75 @@ export default function Home() {
           
           {/* Token Bundles Section */}
           <div>
-            <div className="flex justify-between items-center mb-4">
+            <div className="mb-4">
               <h1 className="text-2xl font-bold">Memecoin Indexes</h1>
-              <div className="text-sm text-gray-500">
-                Last updated: {bundles.length > 0 ? new Date(bundles[0].lastUpdated).toLocaleString() : 'N/A'}
-              </div>
             </div>
             
             <div className="mb-6 border-b border-gray-200">
-              <div className="flex space-x-6">
-                <button 
-                  className={`px-4 py-3 text-sm font-medium transition-all cursor-pointer border-b-2 ${
-                    activeFilter === 'recent' 
-                      ? 'border-blue-600 text-blue-600' 
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                  onClick={() => setActiveFilter('recent')}
-                >
-                  Recent
-                </button>
-                <button 
-                  className={`px-4 py-3 text-sm font-medium transition-all cursor-pointer border-b-2 ${
-                    activeFilter === 'highest' 
-                      ? 'border-blue-600 text-blue-600' 
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                  onClick={() => setActiveFilter('highest')}
-                >
-                  Highest Gain
-                </button>
-                <button 
-                  className={`px-4 py-3 text-sm font-medium transition-all cursor-pointer border-b-2 ${
-                    activeFilter === 'lowest' 
-                      ? 'border-blue-600 text-blue-600' 
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                  onClick={() => setActiveFilter('lowest')}
-                >
-                  Lowest Gain
-                </button>
+              <div className="flex justify-between items-center">
+                <div className="flex space-x-6">
+                  <button 
+                    className={`px-4 py-3 text-sm font-medium transition-all cursor-pointer border-b-2 ${
+                      activeFilter === 'recent' 
+                        ? 'border-blue-600 text-blue-600' 
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                    onClick={() => setActiveFilter('recent')}
+                  >
+                    Recent
+                  </button>
+                  <button 
+                    className={`px-4 py-3 text-sm font-medium transition-all cursor-pointer border-b-2 ${
+                      activeFilter === 'highest' 
+                        ? 'border-blue-600 text-blue-600' 
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                    onClick={() => setActiveFilter('highest')}
+                  >
+                    Highest Gain
+                  </button>
+                  <button 
+                    className={`px-4 py-3 text-sm font-medium transition-all cursor-pointer border-b-2 ${
+                      activeFilter === 'lowest' 
+                        ? 'border-blue-600 text-blue-600' 
+                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }`}
+                    onClick={() => setActiveFilter('lowest')}
+                  >
+                    Lowest Gain
+                  </button>
+                </div>
+                
+                {/* Pagination Controls */}
+                {bundles.length > bundlesPerPage && (
+                  <div className="flex items-center space-x-2">
+                    <button 
+                      onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                      disabled={currentPage === 1}
+                      className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      aria-label="Previous page"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    
+                    <span className="text-sm text-gray-600">
+                      {currentPage} / {Math.ceil(bundles.length / bundlesPerPage)}
+                    </span>
+                    
+                    <button 
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(bundles.length / bundlesPerPage)))}
+                      disabled={currentPage >= Math.ceil(bundles.length / bundlesPerPage)}
+                      className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                      aria-label="Next page"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
             
@@ -339,7 +403,8 @@ export default function Home() {
                 </Link>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8 auto-rows-fr">
+              <div className="min-h-[800px]">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8 auto-rows-fr">
                 {bundles
                   .slice()
                   .sort((a, b) => {
@@ -351,6 +416,8 @@ export default function Home() {
                       return (a.metrics?.priceChangePercent || 0) - (b.metrics?.priceChangePercent || 0);
                     }
                   })
+                  // Apply pagination
+                  .slice((currentPage - 1) * bundlesPerPage, currentPage * bundlesPerPage)
                   .map((bundle) => (
                   <div 
                     key={bundle._id} 
@@ -358,8 +425,11 @@ export default function Home() {
                       newBundleId === bundle._id 
                         ? 'bg-white shadow-md animate-shake' 
                         : 'bg-white shadow-sm hover:shadow-md'
-                    } transition-all duration-300 overflow-hidden flex flex-col`}
+                    } transition-all duration-300 overflow-hidden flex flex-col relative`}
                   >
+                    <div className="absolute top-1 right-2 text-[10px] text-gray-400">
+                      <TimeCounter date={bundle.createdAt} />
+                    </div>
                     <div className="p-4">
                       <div className="flex items-center">
                         {/* Bundle Image (if available) */}
@@ -385,7 +455,7 @@ export default function Home() {
                         <div className="flex-grow">
                           <div className="flex justify-between items-center">
                             <div className="max-w-[150px] overflow-hidden">
-                              <h2 className="text-sm font-semibold text-gray-800 truncate uppercase">{bundle.title}</h2>
+                              <h2 className="text-sm font-semibold text-gray-800 truncate">{bundle.title}</h2>
                               {bundle.description && (
                                 <p className="text-xs text-gray-500 truncate">{bundle.description}</p>
                               )}
@@ -435,6 +505,40 @@ export default function Home() {
                     </div>
                   </div>
                 ))}
+                </div>
+                
+                {/* Mobile Pagination (only shown on small screens) */}
+                {bundles.length > bundlesPerPage && (
+                  <div className="flex justify-center mt-8 md:hidden">
+                    <div className="flex items-center space-x-2">
+                      <button 
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 cursor-pointer"
+                        aria-label="Previous page"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                      </button>
+                      
+                      <span className="text-sm text-gray-600 bg-white px-3 py-2 rounded-md border">
+                        {currentPage} / {Math.ceil(bundles.length / bundlesPerPage)}
+                      </span>
+                      
+                      <button 
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(bundles.length / bundlesPerPage)))}
+                        disabled={currentPage >= Math.ceil(bundles.length / bundlesPerPage)}
+                        className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:opacity-50 cursor-pointer"
+                        aria-label="Next page"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

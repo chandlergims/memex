@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@privy-io/react-auth": "^2.14.1",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "firebase": "^11.9.1",
     "mongoose": "^8.15.1",

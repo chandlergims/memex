@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongodb';
 import TokenModel from '@/models/Token';
 import BundleModel from '@/models/Bundle';
+// We'll use a different approach to access the WebSocket server
 
 // Helper function to chunk an array into smaller arrays
 function chunkArray<T>(array: T[], chunkSize: number): T[][] {
@@ -18,7 +19,7 @@ function calculatePercentChange(currentPrice: number, initialPrice: number): num
   return ((currentPrice - initialPrice) / initialPrice) * 100;
 }
 
-// This function will be called by a cron job every 5 minutes
+// This function will be called by a cron job every minute
 export async function GET(request: NextRequest) {
   // Temporarily bypass authorization check for testing
   // const authHeader = request.headers.get('authorization');
@@ -136,8 +137,19 @@ export async function GET(request: NextRequest) {
 
     // We're only tracking 5m price changes now
 
-    // Update bundle metrics based on new token prices
-    await updateBundleMetrics();
+      // Update bundle metrics based on new token prices
+      const updatedBundles = await updateBundleMetrics();
+      
+      // Emit WebSocket event for updated tokens and bundles if global.io is available
+      if (typeof global !== 'undefined' && global.io) {
+        console.log('Emitting prices:updated event via WebSocket');
+        global.io.emit('prices:updated', {
+          updatedTokens,
+          updatedBundles
+        });
+      } else {
+        console.warn('WebSocket server not available, could not emit prices:updated event');
+      }
 
     return NextResponse.json({
       success: true,
@@ -163,6 +175,7 @@ async function updateBundleMetrics() {
   try {
     // Get all bundles
     const bundles = await BundleModel.find({});
+    const updatedBundles = [];
     
     for (const bundle of bundles) {
       // Get all tokens in the bundle
@@ -192,8 +205,20 @@ async function updateBundleMetrics() {
         currentPrice,
         priceChangePercent: priceChangePercent.toFixed(2) + '%'
       });
+      
+      // Add to the list of updated bundles
+      updatedBundles.push({
+        _id: bundle._id,
+        title: bundle.title,
+        currentPrice,
+        priceChangePercent,
+        lastUpdated: new Date()
+      });
     }
+    
+    return updatedBundles;
   } catch (error) {
     console.error('Error updating bundle metrics:', error);
+    return [];
   }
 }

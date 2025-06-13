@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import PrivyProvider from "@/components/PrivyProvider";
 import WebSocketProvider from "@/components/WebSocketProvider";
+import LiveTickerBar from "@/components/LiveTickerBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
         <PrivyProvider>
           <WebSocketProvider>
             <Navbar />
+            <LiveTickerBar />
             {children}
           </WebSocketProvider>
         </PrivyProvider>
