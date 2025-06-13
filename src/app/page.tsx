@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useWebSocket } from "@/components/WebSocketProvider";
 
 interface TokenDetails {
@@ -183,10 +184,13 @@ export default function Home() {
                 <div className="flex flex-col items-center">
                   <div className="bg-white border border-gray-200 rounded-full p-0.5 mb-1 shadow">
                     {topPerformers[1]?.imageUrl ? (
-                      <img 
+                      <Image 
                         src={topPerformers[1].imageUrl} 
                         alt={topPerformers[1].title}
+                        width={96}
+                        height={96}
                         className="w-12 h-12 rounded-full object-cover"
+                        priority
                       />
                     ) : (
                       <div className="w-12 h-12 rounded-full flex items-center justify-center bg-blue-50 text-blue-500">
@@ -212,10 +216,13 @@ export default function Home() {
                 <div className="flex flex-col items-center">
                   <div className="bg-white border border-yellow-300 rounded-full p-0.5 mb-1 shadow">
                     {topPerformers[0]?.imageUrl ? (
-                      <img 
+                      <Image 
                         src={topPerformers[0].imageUrl} 
                         alt={topPerformers[0].title}
+                        width={112}
+                        height={112}
                         className="w-14 h-14 rounded-full object-cover"
+                        priority
                       />
                     ) : (
                       <div className="w-14 h-14 rounded-full flex items-center justify-center bg-blue-50 text-blue-500">
@@ -241,10 +248,13 @@ export default function Home() {
                 <div className="flex flex-col items-center">
                   <div className="bg-white border border-gray-200 rounded-full p-0.5 mb-1 shadow">
                     {topPerformers[2]?.imageUrl ? (
-                      <img 
+                      <Image 
                         src={topPerformers[2].imageUrl} 
                         alt={topPerformers[2].title}
+                        width={80}
+                        height={80}
                         className="w-10 h-10 rounded-full object-cover"
+                        priority
                       />
                     ) : (
                       <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-50 text-blue-500">
@@ -355,10 +365,13 @@ export default function Home() {
                         {/* Bundle Image (if available) */}
                         <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 mr-3">
                           {bundle.imageUrl ? (
-                            <img 
+                            <Image 
                               src={bundle.imageUrl} 
                               alt={bundle.title}
+                              width={96}
+                              height={96}
                               className="w-full h-full object-cover"
+                              priority
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center bg-blue-50 text-blue-500">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { usePrivy } from '@privy-io/react-auth';
 
@@ -186,10 +187,13 @@ export default function BundleDetailsPage() {
                     {/* Bundle Image (if available) */}
                     <div className="w-20 h-20 rounded-full overflow-hidden bg-gray-100 flex-shrink-0 mr-5 border-4 border-white shadow">
                       {bundleDetails.bundle.imageUrl ? (
-                        <img 
+                        <Image 
                           src={bundleDetails.bundle.imageUrl} 
                           alt={bundleDetails.bundle.title}
+                          width={160}
+                          height={160}
                           className="w-full h-full object-cover"
+                          priority
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center bg-blue-50 text-blue-500">

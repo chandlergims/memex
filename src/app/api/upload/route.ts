@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import { join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import path from 'path';
+import { storage } from '@/lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 // Function to get the file extension from a mime type
 function getExtensionFromMimeType(mimeType: string): string {
@@ -16,6 +15,29 @@ function getExtensionFromMimeType(mimeType: string): string {
   };
   
   return mimeToExt[mimeType] || 'jpg';
+}
+
+// Function to upload a file to Firebase Storage
+async function uploadToFirebase(file: File, filename: string): Promise<string> {
+  try {
+    // Create a storage reference
+    const storageRef = ref(storage, `uploads/${filename}`);
+    
+    // Convert the file to a Buffer
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    
+    // Upload the file to Firebase Storage
+    await uploadBytes(storageRef, buffer);
+    
+    // Get the download URL
+    const downloadURL = await getDownloadURL(storageRef);
+    
+    return downloadURL;
+  } catch (error) {
+    console.error('Error uploading to Firebase:', error);
+    throw error;
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -52,20 +74,9 @@ export async function POST(request: NextRequest) {
     const ext = getExtensionFromMimeType(file.type);
     const filename = `${uuidv4()}.${ext}`;
     
-    // Create the uploads directory if it doesn't exist
-    const uploadsDir = join(process.cwd(), 'public', 'uploads');
-    
     try {
-      // Convert the file to a Buffer
-      const bytes = await file.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-      
-      // Write the file to the uploads directory
-      const filePath = join(uploadsDir, filename);
-      await writeFile(filePath, buffer);
-      
-      // Return the URL to the uploaded file
-      const fileUrl = `/uploads/${filename}`;
+      // Upload the file to Firebase Storage
+      const fileUrl = await uploadToFirebase(file, filename);
       
       return NextResponse.json({
         success: true,
