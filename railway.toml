@@ -9,4 +9,4 @@ healthcheckTimeout = 100
 
 [[cron]]
 schedule = "* * * * *"
-command = "echo 'Running cron job from railway.toml' && curl -X GET -H 'Authorization: Bearer $CRON_SECRET_KEY' $RAILWAY_PUBLIC_DOMAIN/api/cron/update-prices"
+command = "echo \"Running cron job at $(date)\" && curl -v -X GET -H 'Authorization: Bearer $CRON_SECRET_KEY' $RAILWAY_PUBLIC_DOMAIN/api/cron/update-prices"

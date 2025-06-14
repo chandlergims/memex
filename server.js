@@ -45,6 +45,7 @@ app.prepare().then(() => {
   
   // Make io accessible globally
   global.io = io;
+  console.log('WebSocket server set to global.io:', global.io ? 'Success' : 'Failed');
   
   server.listen(PORT, (err) => {
     if (err) throw err;

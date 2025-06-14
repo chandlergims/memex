@@ -21,6 +21,12 @@ function calculatePercentChange(currentPrice: number, initialPrice: number): num
 
 // This function will be called by a cron job every minute
 export async function GET(request: NextRequest) {
+  // Log when this endpoint is called
+  console.log('=== CRON JOB API ENDPOINT CALLED ===');
+  console.log('Time:', new Date().toISOString());
+  console.log('Request URL:', request.url);
+  console.log('Request headers:', JSON.stringify(Object.fromEntries(request.headers)));
+  
   // Temporarily bypass authorization check for testing
   // const authHeader = request.headers.get('authorization');
   // if (!authHeader || authHeader !== `Bearer ${process.env.CRON_SECRET_KEY}`) {
@@ -141,6 +147,12 @@ export async function GET(request: NextRequest) {
       const updatedBundles = await updateBundleMetrics();
       
       // Emit WebSocket event for updated tokens and bundles if global.io is available
+      console.log('Checking WebSocket availability...');
+      console.log('global defined:', typeof global !== 'undefined');
+      if (typeof global !== 'undefined') {
+        console.log('global.io exists:', !!global.io);
+      }
+      
       if (typeof global !== 'undefined' && global.io) {
         console.log('Emitting prices:updated event via WebSocket');
         global.io.emit('prices:updated', {
