@@ -12,6 +12,7 @@ export interface IBundle extends Document {
   lastUpdated: Date;
   userId?: string;
   twitterUsername?: string;
+  isActive: boolean;
 }
 
 const BundleSchema: Schema = new Schema({
@@ -73,6 +74,10 @@ const BundleSchema: Schema = new Schema({
   twitterUsername: {
     type: String,
     trim: true
+  },
+  isActive: {
+    type: Boolean,
+    default: true
   }
 });
 

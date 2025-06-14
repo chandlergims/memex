@@ -1,0 +1,43 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from 'react';
+
+export default function AnimatedTitle() {
+  const [text, setText] = useState('Daily Performing ');
+  const [bonksText, setBonksText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(50); // Fast typing speed
+  const textRef = useRef<HTMLSpanElement>(null);
+  
+  useEffect(() => {
+    if (isComplete) return;
+    
+    let ticker = setTimeout(() => {
+      if (bonksText.length < 'Bonks'.length) {
+        setBonksText('Bonks'.substring(0, bonksText.length + 1));
+      } else {
+        setIsComplete(true);
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(ticker);
+  }, [bonksText, isComplete, typingSpeed]);
+  
+  const renderStyledText = () => {
+    return (
+      <>
+        <span className="text-[#171717]">{text}</span>
+        <span className="text-[#ff5c01]">{bonksText}</span>
+      </>
+    );
+  };
+  
+  return (
+    <h2 className="text-2xl font-bold relative min-h-[2rem] flex items-center justify-center">
+      <span ref={textRef} className="inline-block">
+        {renderStyledText()}
+      </span>
+      <span className={`border-r-2 border-[#ff5c01] h-6 ml-1 ${isComplete ? 'animate-blink' : ''}`}></span>
+    </h2>
+  );
+}

@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Site",
-  description: "A simple Next.js site with a navbar and white theme",
+  title: "Bonks",
+  description: "Create and track token indexes on Solana",
 };
 
 export default function RootLayout({

@@ -78,6 +78,12 @@ export default function WebSocketProvider({ children }: WebSocketProviderProps) 
         setLastEvent({ type: 'bundle:created', data });
       });
       
+      // Listen for bonk creation events
+      socketInstance.on('bonk:created', (data) => {
+        console.log('Received bonk:created event:', data);
+        setLastEvent({ type: 'bonk:created', data });
+      });
+      
       // Listen for price update events
       socketInstance.on('prices:updated', (data) => {
         console.log('Received prices:updated event:', data);

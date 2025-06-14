@@ -24,19 +24,38 @@ export async function POST(request: NextRequest) {
     // Validate number of tokens
     if (tokenAddresses.length < 5) {
       return NextResponse.json(
-        { success: false, message: 'Bundle must contain at least 5 tokens' },
+        { success: false, message: 'Bonk must contain at least 5 tokens' },
         { status: 400 }
       );
     }
 
     if (tokenAddresses.length > 20) {
       return NextResponse.json(
-        { success: false, message: 'Bundle cannot contain more than 20 tokens' },
+        { success: false, message: 'Bonk cannot contain more than 20 tokens' },
         { status: 400 }
       );
     }
 
     await dbConnect();
+    
+    // Check if the user has already created 5 bonks
+    if (userId) {
+      const userBundleCount = await BundleModel.countDocuments({ userId });
+      if (userBundleCount >= 5) {
+        return NextResponse.json(
+          { success: false, message: 'You have reached the maximum limit of 5 Bonks per user for this leaderboard session' },
+          { status: 400 }
+        );
+      }
+    } else if (twitterUsername) {
+      const userBundleCount = await BundleModel.countDocuments({ twitterUsername });
+      if (userBundleCount >= 5) {
+        return NextResponse.json(
+          { success: false, message: 'You have reached the maximum limit of 5 Bonks per user for this leaderboard session' },
+          { status: 400 }
+        );
+      }
+    }
 
     // Verify all token addresses exist in the database
     const tokens = await TokenModel.find({
@@ -65,7 +84,8 @@ export async function POST(request: NextRequest) {
       createdAt: new Date(),
       lastUpdated: new Date(),
       userId,
-      twitterUsername
+      twitterUsername,
+      isActive: true // Explicitly set isActive to true for new bundles
     });
 
     await bundle.save();
@@ -77,10 +97,10 @@ export async function POST(request: NextRequest) {
     try {
       // Access the global io instance
       if (global.io) {
-        global.io.emit('bundle:created', {
+        global.io.emit('bonk:created', {
           bundle: completeBundle
         });
-        console.log('WebSocket event emitted: bundle:created');
+        console.log('WebSocket event emitted: bonk:created');
       } else {
         console.log('Socket.io instance not available');
       }
@@ -91,11 +111,11 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Bundle created successfully',
+      message: 'Bonk created successfully',
       data: bundle
     }, { status: 201 });
   } catch (error) {
-    console.error('Error creating bundle:', error);
+    console.error('Error creating bonk:', error);
     return NextResponse.json(
       { 
         success: false, 
@@ -126,7 +146,7 @@ export async function GET(request: NextRequest) {
       data: bundles
     });
   } catch (error) {
-    console.error('Error fetching bundles:', error);
+    console.error('Error fetching bonks:', error);
     return NextResponse.json(
       { 
         success: false, 

@@ -95,11 +95,11 @@ export default function BundleForm({ onSubmit, isValid, isLoading }: BundleFormP
   };
   
   return (
-    <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-      <h2 className="text-xl font-semibold mb-4">Bundle Details</h2>
+    <div>
+      <h2 className="text-lg font-semibold mb-3">Bundle Details</h2>
       
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
+        <div className="mb-3">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Title *
           </label>
@@ -108,7 +108,7 @@ export default function BundleForm({ onSubmit, isValid, isLoading }: BundleFormP
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Enter bundle title"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
             required
             maxLength={10}
           />
@@ -123,7 +123,7 @@ export default function BundleForm({ onSubmit, isValid, isLoading }: BundleFormP
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter bundle description"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 h-24"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 h-16"
             maxLength={20}
           />
           <p className="mt-1 text-xs text-gray-500">Max 20 characters ({20 - description.length} remaining)</p>
@@ -145,7 +145,7 @@ export default function BundleForm({ onSubmit, isValid, isLoading }: BundleFormP
             />
             <label 
               htmlFor="image-upload"
-              className={`px-3 py-2 bg-gray-100 text-gray-700 rounded-md cursor-pointer hover:bg-gray-200 ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`px-3 py-1.5 bg-blue-50 text-blue-700 rounded-md cursor-pointer hover:bg-blue-100 ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               {uploadingImage ? 'Uploading...' : 'Choose Image'}
             </label>
@@ -167,7 +167,7 @@ export default function BundleForm({ onSubmit, isValid, isLoading }: BundleFormP
           {imagePreview && (
             <div className="mt-3">
               <p className="text-xs text-gray-500 mb-1">Preview:</p>
-              <div className="relative w-32 h-32 border border-gray-200 rounded-md overflow-hidden">
+              <div className="relative w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
                 <img 
                   src={imagePreview} 
                   alt="Preview" 
@@ -181,7 +181,7 @@ export default function BundleForm({ onSubmit, isValid, isLoading }: BundleFormP
         <button
           type="submit"
           disabled={!isValid || isLoading}
-          className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+          className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50"
         >
           {isLoading ? "Creating..." : "Create Bundle"}
         </button>

@@ -3,11 +3,13 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useWebSocket } from './WebSocketProvider';
+import LiveTickerBarSkeleton from './LiveTickerBarSkeleton';
 
 interface Bundle {
   _id: string;
   title: string;
   priceChangePercent: number;
+  imageUrl?: string;
 }
 
 export default function LiveTickerBar() {
@@ -21,7 +23,7 @@ export default function LiveTickerBar() {
     const fetchTopGainers = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/bundles');
+        const response = await fetch('/api/bonks');
         
         if (!response.ok) {
           throw new Error(`API request failed with status ${response.status}`);
@@ -61,7 +63,8 @@ export default function LiveTickerBar() {
           if (bundleMap.has(updatedBundle._id)) {
             bundleMap.set(updatedBundle._id, {
               ...bundleMap.get(updatedBundle._id)!,
-              priceChangePercent: updatedBundle.priceChangePercent
+              priceChangePercent: updatedBundle.priceChangePercent,
+              imageUrl: updatedBundle.imageUrl || bundleMap.get(updatedBundle._id)!.imageUrl
             });
           }
         });
@@ -92,6 +95,7 @@ export default function LiveTickerBar() {
         animation: scroll 30s linear infinite;
         align-items: center;
         padding: 0.25rem 0;
+        white-space: nowrap;
       }
       
       .ticker-item {
@@ -121,6 +125,9 @@ export default function LiveTickerBar() {
         }
       }
       
+      /* When the first animation completes, the second copy will be in view,
+         creating a seamless infinite scroll effect without visible restarts */
+      
       .scroll-container:hover .scroll-content {
         animation-play-state: paused;
       }
@@ -135,21 +142,32 @@ export default function LiveTickerBar() {
     };
   }, [loading, topGainers]);
 
-  if (loading || topGainers.length === 0) {
+  if (loading) {
+    return <LiveTickerBarSkeleton />;
+  }
+  
+  if (topGainers.length === 0) {
     return null;
   }
 
   return (
-    <div className="bg-white border-b border-gray-100 py-1.5 relative flex h-[40px] w-full items-center overflow-hidden" ref={tickerRef}>
+    <div className="bg-gradient-to-r from-white to-[#fff8f3] border-b border-[#ffebdc] py-1.5 relative flex h-[40px] w-full items-center overflow-hidden" ref={tickerRef}>
       <div className="scroll-container">
         <div className="scroll-content">
           {topGainers.map((bundle, index) => (
             <div key={bundle._id} className="ticker-item">
               <div className="ticker-content">
                 <Link 
-                  href={`/bundles/${bundle._id}`}
+                  href={`/bonks/${bundle._id}`}
                   className="inline-flex items-center"
                 >
+                  {bundle.imageUrl && (
+                    <img 
+                      src={bundle.imageUrl} 
+                      alt={bundle.title}
+                      className="w-5 h-5 rounded-full mr-1.5 object-cover"
+                    />
+                  )}
                   <span className="text-sm font-bold text-gray-700 mr-1.5">{bundle.title}</span>
                   <span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${
                     bundle.priceChangePercent > 0 
@@ -169,9 +187,16 @@ export default function LiveTickerBar() {
             <div key={`dup-${bundle._id}`} className="ticker-item">
               <div className="ticker-content">
                 <Link 
-                  href={`/bundles/${bundle._id}`}
+                  href={`/bonks/${bundle._id}`}
                   className="inline-flex items-center"
                 >
+                  {bundle.imageUrl && (
+                    <img 
+                      src={bundle.imageUrl} 
+                      alt={bundle.title}
+                      className="w-5 h-5 rounded-full mr-1.5 object-cover"
+                    />
+                  )}
                   <span className="text-sm font-bold text-gray-700 mr-1.5">{bundle.title}</span>
                   <span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${
                     bundle.priceChangePercent > 0 
