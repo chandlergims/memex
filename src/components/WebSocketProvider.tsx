@@ -72,12 +72,6 @@ export default function WebSocketProvider({ children }: WebSocketProviderProps) 
         setConnectionAttempts(prev => prev + 1);
       });
 
-      // Listen for bundle creation events
-      socketInstance.on('bundle:created', (data) => {
-        console.log('Received bundle:created event:', data);
-        setLastEvent({ type: 'bundle:created', data });
-      });
-      
       // Listen for bonk creation events
       socketInstance.on('bonk:created', (data) => {
         console.log('Received bonk:created event:', data);

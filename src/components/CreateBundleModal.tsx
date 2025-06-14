@@ -315,17 +315,16 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-hidden flex flex-col">
         <div className="flex flex-col gap-y-1.5 p-4 border-b-2 border-[#ff5c01]">
           <div className="flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-gray-800">
-              {step === 1 ? "Create a Bonk" : "Select Tokens"}
-            </h2>
-            <button 
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 transition-colors absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100"
-            >
-              <CloseIcon />
-            </button>
-          </div>
-          <p className="text-sm text-gray-500">Fill in the Bonk details to create it</p>
+          <h2 className="text-lg font-semibold text-gray-800">
+            {step === 1 ? "Create a Bonk" : "Select Tokens"}
+          </h2>
+          <button 
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700 transition-colors absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100"
+          >
+            <CloseIcon />
+          </button>
+        </div>
         </div>
 
         {/* Progress indicator */}
