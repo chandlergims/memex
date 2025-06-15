@@ -2,8 +2,8 @@ import 'dotenv/config';
 
 (async () => {
   try {
-    // Use Railway's public domain environment variable
-    const url = `${process.env.RAILWAY_PUBLIC_DOMAIN}/api/cron/update-prices`;
+    // Use the URL provided in environment variables or fallback to a default
+    const url = process.env.PRICE_UPDATE_URL || 'http://localhost:3000/api/cron/update-prices';
     console.log(`[CRON] Triggering price update at: ${url}`);
     
     const res = await fetch(url, {
