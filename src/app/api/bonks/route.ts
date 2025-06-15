@@ -38,20 +38,20 @@ export async function POST(request: NextRequest) {
 
     await dbConnect();
     
-    // Check if the user has already created 5 bonks
+    // Check if the user has already created 5 ACTIVE bonks
     if (userId) {
-      const userBundleCount = await BundleModel.countDocuments({ userId });
+      const userBundleCount = await BundleModel.countDocuments({ userId, isActive: true });
       if (userBundleCount >= 5) {
         return NextResponse.json(
-          { success: false, message: 'You have reached the maximum limit of 5 Bonks per user for this leaderboard session' },
+          { success: false, message: 'You have reached the maximum limit of 5 active Bonks per user for this leaderboard session' },
           { status: 400 }
         );
       }
     } else if (twitterUsername) {
-      const userBundleCount = await BundleModel.countDocuments({ twitterUsername });
+      const userBundleCount = await BundleModel.countDocuments({ twitterUsername, isActive: true });
       if (userBundleCount >= 5) {
         return NextResponse.json(
-          { success: false, message: 'You have reached the maximum limit of 5 Bonks per user for this leaderboard session' },
+          { success: false, message: 'You have reached the maximum limit of 5 active Bonks per user for this leaderboard session' },
           { status: 400 }
         );
       }

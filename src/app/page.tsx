@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useWebSocket } from "@/components/WebSocketProvider";
 import TimeCounter from "@/components/TimeCounter";
+import CountdownTimer from "@/components/CountdownTimer";
 import PodiumSection from "@/components/PodiumSection";
 import BundleCard from "@/components/BundleCard";
 import BundleCardSkeleton from "@/components/BundleCardSkeleton";
@@ -248,7 +249,8 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
               <span className="font-medium text-gray-700">
-                <span className="font-bold text-[#ff5c01]">Bonks Index prices</span> <span className="font-bold">updated every minute</span>
+                <span className="font-bold text-[#ff5c01]">Bonks Index prices</span> <span className="font-bold">updated every 5 minutes</span>
+                <span className="ml-1 font-bold text-[#ff5c01]">(<CountdownTimer intervalMinutes={5} />)</span>
               </span>
             </div>
           </div>
