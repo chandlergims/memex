@@ -26,12 +26,6 @@ export async function GET(request: NextRequest) {
   console.log('Time:', new Date().toISOString());
   console.log('Request URL:', request.url);
   console.log('Request headers:', JSON.stringify(Object.fromEntries(request.headers)));
-  
-  // Temporarily bypass authorization check for testing
-  // const authHeader = request.headers.get('authorization');
-  // if (!authHeader || authHeader !== `Bearer ${process.env.CRON_SECRET_KEY}`) {
-  //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  // }
 
   try {
     await dbConnect();
