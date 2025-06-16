@@ -95,7 +95,7 @@ export default function BundleDetailsStep({
       
       <div className="space-y-2">
         <label className="block text-sm font-bold text-gray-700">
-          Bonks Description
+          Bonks Description *
         </label>
         <div className="relative">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
@@ -111,6 +111,7 @@ export default function BundleDetailsStep({
             placeholder="The greatest Bonks ever created (max 20 chars)"
             className="flex w-full h-10 pl-10 pr-3 py-2 text-sm border border-gray-100 bg-gray-50 rounded-md focus:outline-none"
             maxLength={20}
+            required
           />
         </div>
         {description.length > 0 && (
