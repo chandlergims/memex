@@ -7,6 +7,7 @@ import { usePrivy } from '@privy-io/react-auth';
 import { useWebSocket } from "@/components/WebSocketProvider";
 import BundleCardSkeleton from "@/components/BundleCardSkeleton";
 import LeaderboardPodium from "@/components/LeaderboardPodium";
+import LeaderboardTitle from "@/components/LeaderboardTitle";
 
 // Countdown Timer Component
 function CountdownTimer() {
@@ -275,7 +276,10 @@ export default function LeaderboardPage() {
           <div className="relative mb-0 bg-gradient-to-r from-[#fff5eb20] to-transparent rounded-xl p-6">
             {/* Daily Bonks Title */}
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#ff5c01] to-[#ff9a01]">Daily Bonks</h2>
+              <div className="inline-block relative">
+                <LeaderboardTitle />
+                <div className="absolute -top-1 -left-2 -right-2 h-10 bg-gradient-to-r from-[#fff5eb00] via-[#fff5eb40] to-[#fff5eb00] rounded-full animate-shine"></div>
+              </div>
               
               {/* Countdown Timer */}
               <div className="mt-2">
@@ -507,12 +511,7 @@ export default function LeaderboardPage() {
                   );
                 })
                 ) : (
-                  <div className="text-center py-8 bg-gray-50 rounded-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <p className="text-lg font-medium text-gray-600">No results found</p>
-                  </div>
+                  <div className="py-8"></div>
                 )}
               </div>
               

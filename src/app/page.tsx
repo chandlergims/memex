@@ -220,7 +220,10 @@ export default function Home() {
   
   // Get sorted and paginated bundles for display
   const displayBundles = useMemo(() => {
-    return bundles
+    // Filter out inactive bundles
+    const activeBundles = bundles.filter(bundle => bundle.isActive !== false);
+    
+    return activeBundles
       .slice()
       .sort((a, b) => {
         if (activeFilter === 'recent') {
@@ -294,7 +297,7 @@ export default function Home() {
                 </div>
                 
                 {/* Pagination Controls */}
-                {bundles.length > bundlesPerPage && (
+                {bundles.filter(bundle => bundle.isActive !== false).length > bundlesPerPage && (
                   <div className="flex items-center space-x-2">
                     <button 
                       onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
@@ -308,12 +311,12 @@ export default function Home() {
                     </button>
                     
                     <span className="text-sm font-bold text-gray-800 px-2">
-                      {currentPage} / {Math.ceil(bundles.length / bundlesPerPage)}
+                      {currentPage} / {Math.ceil(bundles.filter(bundle => bundle.isActive !== false).length / bundlesPerPage)}
                     </span>
                     
                     <button 
-                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(bundles.length / bundlesPerPage)))}
-                      disabled={currentPage >= Math.ceil(bundles.length / bundlesPerPage)}
+                      onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(bundles.filter(bundle => bundle.isActive !== false).length / bundlesPerPage)))}
+                      disabled={currentPage >= Math.ceil(bundles.filter(bundle => bundle.isActive !== false).length / bundlesPerPage)}
                       className="w-8 h-8 flex items-center justify-center bg-transparent text-gray-700 hover:text-[#ff5c01] disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
                       aria-label="Next page"
                     >
@@ -356,7 +359,7 @@ export default function Home() {
                 </div>
                 
                 {/* Mobile Pagination (only shown on small screens) */}
-                {bundles.length > bundlesPerPage && (
+                {bundles.filter(bundle => bundle.isActive !== false).length > bundlesPerPage && (
                   <div className="flex justify-center mt-8 md:hidden">
                     <div className="flex items-center space-x-4">
                       <button 
@@ -371,12 +374,12 @@ export default function Home() {
                       </button>
                       
                       <span className="text-sm font-bold text-gray-800 px-2 py-1 border-b border-gray-300">
-                        {currentPage} / {Math.ceil(bundles.length / bundlesPerPage)}
+                        {currentPage} / {Math.ceil(bundles.filter(bundle => bundle.isActive !== false).length / bundlesPerPage)}
                       </span>
                       
                       <button 
-                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(bundles.length / bundlesPerPage)))}
-                        disabled={currentPage >= Math.ceil(bundles.length / bundlesPerPage)}
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(bundles.filter(bundle => bundle.isActive !== false).length / bundlesPerPage)))}
+                        disabled={currentPage >= Math.ceil(bundles.filter(bundle => bundle.isActive !== false).length / bundlesPerPage)}
                         className="w-10 h-10 flex items-center justify-center bg-transparent text-gray-700 hover:text-[#ff5c01] disabled:opacity-30 cursor-pointer transition-colors"
                         aria-label="Next page"
                       >

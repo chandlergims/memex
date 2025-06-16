@@ -134,8 +134,10 @@ export async function GET(request: NextRequest) {
     const url = new URL(request.url);
     const userId = url.searchParams.get('userId');
     
-    // Build query
-    const query = userId ? { userId } : {};
+    // Build query - only return active bundles by default
+    const query = userId 
+      ? { userId, isActive: { $ne: false } } 
+      : { isActive: { $ne: false } };
 
     const bundles = await BundleModel.find(query)
       .sort({ createdAt: -1 }) // Sort by creation date, newest first

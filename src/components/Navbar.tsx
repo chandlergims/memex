@@ -30,18 +30,25 @@ const Navbar = () => {
     };
   }, []);
   return (
-    <nav className="w-full bg-gradient-to-r from-[#ff5c01] via-[#ff7a01] to-[#ff8a01] px-4 py-4 shadow-md border-b border-[#ff9a01]">
+    <nav className="w-full bg-gradient-to-r from-[#ff5c01] via-[#ff7a01] to-[#ff8a01] px-4 py-2 shadow-lg border-b-2 border-white">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
           <Link href="/" className="flex items-center">
-            <span className="text-2xl font-extrabold text-white">Bonks</span>
+            <Image 
+              src="/navbarlogo.png" 
+              alt="Bonks Logo" 
+              width={100} 
+              height={30} 
+              style={{ maxHeight: '40px', width: 'auto' }}
+              priority
+            />
           </Link>
         </div>
         
         <div className="flex items-center space-x-6">
           <button 
             onClick={() => setIsCreateModalOpen(true)} 
-            className="create-button px-6 py-2 bg-white text-[#ff5c01] font-bold text-sm rounded-md hover:bg-gray-100 transition-all duration-200 cursor-pointer shadow-sm border border-[#ff5c01]"
+              className="create-button px-5 py-1.5 bg-white text-[#ff5c01] font-bold text-sm rounded-full hover:bg-gray-100 transition-all duration-200 cursor-pointer shadow-md"
           >
             Create
           </button>
@@ -68,7 +75,7 @@ const Navbar = () => {
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 overflow-hidden">
                   <Link 
                     href="/profile" 
-                    className="w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-[#ff5c01] transition-colors cursor-pointer flex items-center border-b border-gray-100"
+                    className="w-full text-left px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-100 hover:text-[#ff5c01] transition-colors cursor-pointer flex items-center border-b border-gray-100"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -79,7 +86,7 @@ const Navbar = () => {
                   
                   <Link 
                     href="/leaderboard" 
-                    className="w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-[#ff5c01] transition-colors cursor-pointer flex items-center border-b border-gray-100"
+                    className="w-full text-left px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-100 hover:text-[#ff5c01] transition-colors cursor-pointer flex items-center border-b border-gray-100"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -93,7 +100,7 @@ const Navbar = () => {
                       logout();
                       setIsDropdownOpen(false);
                     }}
-                    className="w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-[#ff5c01] transition-colors cursor-pointer flex items-center"
+                    className="w-full text-left px-4 py-3 text-sm font-bold text-gray-700 hover:bg-gray-100 hover:text-[#ff5c01] transition-colors cursor-pointer flex items-center"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -106,7 +113,7 @@ const Navbar = () => {
           ) : (
             <button
               onClick={login}
-              className="px-6 py-2 bg-white text-[#ff5c01] font-bold text-sm rounded-md hover:bg-gray-100 transition-all duration-200 cursor-pointer shadow-sm border border-[#ff5c01]"
+              className="px-5 py-1.5 bg-white text-[#ff5c01] font-bold text-sm rounded-full hover:bg-gray-100 transition-all duration-200 cursor-pointer shadow-md"
             >
               Connect
             </button>

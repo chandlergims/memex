@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
-export default function AnimatedTitle() {
-  const [text, setText] = useState('Daily Performing ');
+export default function LeaderboardTitle() {
+  const [text, setText] = useState('Daily ');
   const [bonksText, setBonksText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
   const [typingSpeed, setTypingSpeed] = useState(50); // Fast typing speed

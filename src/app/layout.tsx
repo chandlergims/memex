@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import PrivyProvider from "@/components/PrivyProvider";
 import WebSocketProvider from "@/components/WebSocketProvider";
 import LiveTickerBar from "@/components/LiveTickerBar";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,6 +20,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Bonks",
   description: "Create and track token indexes on Solana",
+  icons: {
+    icon: "/navbarlogo.png",
+    apple: "/navbarlogo.png",
+  },
 };
 
 export default function RootLayout({
@@ -36,6 +41,7 @@ export default function RootLayout({
             <Navbar />
             <LiveTickerBar />
             {children}
+            <Footer />
           </WebSocketProvider>
         </PrivyProvider>
       </body>
