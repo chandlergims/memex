@@ -6,6 +6,7 @@ import PrivyProvider from "@/components/PrivyProvider";
 import WebSocketProvider from "@/components/WebSocketProvider";
 import LiveTickerBar from "@/components/LiveTickerBar";
 import Footer from "@/components/Footer";
+import ComingSoon from "@/components/ComingSoon";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Check if site is active from environment variable
+  const isSiteActive = process.env.NEXT_PUBLIC_SITE_ACTIVE === 'true';
   return (
     <html lang="en">
       <body
@@ -42,6 +45,7 @@ export default function RootLayout({
             <LiveTickerBar />
             {children}
             <Footer />
+            <ComingSoon isActive={isSiteActive} />
           </WebSocketProvider>
         </PrivyProvider>
       </body>
