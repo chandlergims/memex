@@ -102,13 +102,13 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
 
   const handleAddToken = (token: Token) => {
     if (selectedTokens.length >= 20) {
-      setError("You cannot add more than 20 tokens to a Bonk");
+      setError("You cannot add more than 20 tokens to a BIF");
       return;
     }
     
     // Check if token is already in the bundle by address (case insensitive)
     if (selectedTokens.some(t => t.address.toLowerCase() === token.address.toLowerCase())) {
-      setError("This token is already in your Bonk");
+      setError("This token is already in your BIF");
       return;
     }
     
@@ -228,15 +228,15 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
   const handleNextStep = () => {
     if (step === 1) {
       if (!title.trim()) {
-        setError("Please enter a title for your Bonk");
+        setError("Please enter a title for your BIF");
         return;
       }
       if (!description.trim()) {
-        setError("Please enter a description for your Bonk");
+        setError("Please enter a description for your BIF");
         return;
       }
       if (!imageUrl) {
-        setError("Please upload an image for your Bonk");
+        setError("Please upload an image for your BIF");
         return;
       }
       setError("");
@@ -254,18 +254,18 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
     e.preventDefault();
     
     if (!authenticated) {
-      setError("Please login with Twitter to create a Bonk");
+      setError("Please login with Twitter to create a BIF");
       login();
       return;
     }
     
     if (!title.trim()) {
-      setError("Please enter a title for your Bonk");
+      setError("Please enter a title for your BIF");
       return;
     }
     
     if (selectedTokens.length < 5) {
-      setError("Please select at least 5 tokens for your Bonk");
+      setError("Please select at least 5 tokens for your BIF");
       return;
     }
     
@@ -291,15 +291,15 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
       const data = await response.json();
       
       if (data.success) {
-        setSuccess("Bonk created successfully!");
+        setSuccess("BIF created successfully!");
         // Close the modal immediately instead of waiting
         onClose();
       } else {
         // Show specific error message for bundle limit
         if (data.message && data.message.includes("maximum limit of 5 bundles")) {
-          setError("You have reached the maximum limit of 5 Bonks per user for this leaderboard session.");
+          setError("You have reached the maximum limit of 5 BIFs per user for this leaderboard session.");
         } else {
-          setError(data.message || "Failed to create Bonk");
+          setError(data.message || "Failed to create BIF");
         }
       }
     } catch (err) {
@@ -364,7 +364,7 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                 <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
               </svg>
-              {error === "Please upload an image for your Bonk" ? (
+              {error === "Please upload an image for your BIF" ? (
                 <span className="font-bold">{error}</span>
               ) : (
                 error
