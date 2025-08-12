@@ -151,14 +151,14 @@ export default function LiveTickerBar() {
   }
 
   return (
-    <div className="bg-gradient-to-r from-white to-[#fff8f3] border-b border-[#ffebdc] py-1.5 relative flex h-[40px] w-full items-center overflow-hidden" ref={tickerRef}>
+    <div className="bg-gradient-to-r from-white to-[#fff8f3] border-b border-green-200 py-1.5 relative flex h-[40px] w-full items-center overflow-hidden" ref={tickerRef}>
       <div className="scroll-container">
         <div className="scroll-content">
           {topGainers.map((bundle, index) => (
             <div key={bundle._id} className="ticker-item">
               <div className="ticker-content">
                 <Link 
-                  href={`/bonks/${bundle._id}`}
+                  href={`/bifs/${bundle._id}`}
                   className="inline-flex items-center"
                 >
                   {bundle.imageUrl && (
@@ -187,7 +187,7 @@ export default function LiveTickerBar() {
             <div key={`dup-${bundle._id}`} className="ticker-item">
               <div className="ticker-content">
                 <Link 
-                  href={`/bonks/${bundle._id}`}
+                  href={`/bifs/${bundle._id}`}
                   className="inline-flex items-center"
                 >
                   {bundle.imageUrl && (

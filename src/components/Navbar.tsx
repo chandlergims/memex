@@ -30,18 +30,18 @@ const Navbar = () => {
     };
   }, []);
   return (
-    <nav className="w-full bg-gradient-to-r from-green-500 via-green-600 to-green-700 px-4 py-2 shadow-lg border-b-2 border-white">
+    <nav className="w-full bg-green-100 px-4 py-2 shadow-lg border-b-2 border-green-200">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center">
           <Link href="/" className="flex items-center">
-            <Image 
-              src="/navbarlogo.png" 
-              alt="Bonks Logo" 
-              width={100} 
-              height={30} 
-              style={{ maxHeight: '40px', width: 'auto' }}
-              priority
-            />
+              <Image 
+                src="/Untitled design (63).png" 
+                alt="BIF Logo" 
+                width={100} 
+                height={30} 
+                style={{ maxHeight: '40px', width: 'auto' }}
+                priority
+              />
           </Link>
         </div>
         
@@ -57,7 +57,7 @@ const Navbar = () => {
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center space-x-2 text-white hover:text-gray-100 cursor-pointer"
+                className="flex items-center space-x-2 text-green-700 hover:text-green-800 cursor-pointer"
               >
                 {twitterUsername ? (
                   <>
@@ -122,7 +122,7 @@ const Navbar = () => {
         
         <div className="md:hidden">
           {/* Mobile menu button - not implemented for simplicity */}
-          <button className="text-white hover:text-gray-100">
+          <button className="text-green-700 hover:text-green-800">
             Menu
           </button>
         </div>

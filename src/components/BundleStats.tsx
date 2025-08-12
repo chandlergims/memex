@@ -59,15 +59,15 @@ export default function BundleStats({ metrics }: BundleStatsProps) {
   return (
     <div className="p-6 bg-white">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-[#fff5eb] p-6 rounded-lg border border-[#ffead3] shadow-sm">
-          <div className="text-sm font-bold text-[#ff5c01] mb-2">Initial Price</div>
+        <div className="bg-green-50 p-6 rounded-lg border border-green-200 shadow-sm">
+          <div className="text-sm font-bold text-green-600 mb-2">Initial Price</div>
           <div className="text-2xl font-bold text-gray-800">
             {formatPrice(metrics.initialPrice)}
           </div>
         </div>
         
-        <div className="bg-[#fff5eb] p-6 rounded-lg border border-[#ffead3] shadow-sm">
-          <div className="text-sm font-bold text-[#ff5c01] mb-2">Current Price</div>
+        <div className="bg-green-50 p-6 rounded-lg border border-green-200 shadow-sm">
+          <div className="text-sm font-bold text-green-600 mb-2">Current Price</div>
           <div className="text-2xl font-bold text-gray-800">
             {formatPrice(metrics.currentPrice)}
           </div>

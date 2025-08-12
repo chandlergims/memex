@@ -324,7 +324,7 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
         <div className="flex flex-col gap-y-1.5 p-4 border-b-2 border-green-600">
           <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold text-gray-800">
-            {step === 1 ? "Create a Bonk" : "Select Tokens"}
+            {step === 1 ? "Create a BIF" : "Select Tokens"}
           </h2>
           <button 
             onClick={onClose}
@@ -341,7 +341,7 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
             <div className="bg-green-600 h-2.5 rounded-full" style={{ width: step === 1 ? '50%' : '100%' }}></div>
           </div>
           <div className="flex justify-between text-xs text-gray-500 mt-1">
-            <span className={step === 1 ? 'font-medium text-green-600' : 'font-medium text-gray-700'}>Bonk Details</span>
+            <span className={step === 1 ? 'font-medium text-green-600' : 'font-medium text-gray-700'}>BIF Details</span>
             <span className={step === 2 ? 'font-medium text-green-600' : 'font-medium text-gray-700'}>Select Tokens</span>
           </div>
         </div>

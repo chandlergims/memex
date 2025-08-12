@@ -339,7 +339,7 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center p-8 max-w-md">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">Sign in to view your profile</h1>
-          <p className="text-gray-600 mb-6">You need to be signed in to view your profile and manage your Bonks.</p>
+          <p className="text-gray-600 mb-6">You need to be signed in to view your profile and manage your BIFs.</p>
           <button
             onClick={login}
             className="px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 transition-colors"
@@ -357,8 +357,8 @@ export default function ProfilePage() {
       <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-green-600 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
-      <h2 className="text-xl font-bold text-gray-800 mb-2">No Bonks Created Yet</h2>
-      <p className="text-gray-600 mb-6">Create your first Bonk to track your favorite tokens in one place.</p>
+      <h2 className="text-xl font-bold text-gray-800 mb-2">No BIF Created Yet</h2>
+      <p className="text-gray-600 mb-6">Create your first BIF to track your favorite tokens in one place.</p>
       <button 
         onClick={() => {
           // Find the Create button in the navbar and click it
@@ -369,7 +369,7 @@ export default function ProfilePage() {
         }}
         className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 transition-colors"
       >
-        Create Your First Bonk
+        Create Your First BIF
       </button>
     </div>
   );
@@ -395,7 +395,7 @@ export default function ProfilePage() {
             <div className="flex justify-between items-center">
               <div className="flex space-x-4">
                 <div className="px-5 py-2 text-sm font-bold text-green-600 border-b-2 border-green-600">
-                  YOUR BONKS
+                  YOUR BIF
                 </div>
               </div>
               

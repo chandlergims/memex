@@ -96,7 +96,7 @@ export default function BundleCard({ bundle, isNew = false }: BundleCardProps) {
                 </div>
                 
                 <Link 
-                  href={`/bonks/${bundle._id}`}
+                  href={`/bifs/${bundle._id}`}
                   className="bg-gray-100 text-gray-700 px-4 py-1.5 rounded text-sm hover:bg-gray-200"
                 >
                   View

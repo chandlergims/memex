@@ -13,8 +13,8 @@ export default function LeaderboardTitle() {
     if (isComplete) return;
     
     let ticker = setTimeout(() => {
-      if (bonksText.length < 'Bonks'.length) {
-        setBonksText('Bonks'.substring(0, bonksText.length + 1));
+      if (bonksText.length < 'BIFs'.length) {
+        setBonksText('BIFs'.substring(0, bonksText.length + 1));
       } else {
         setIsComplete(true);
       }

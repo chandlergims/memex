@@ -99,7 +99,7 @@ export default function LeaderboardPodium({ topPerformers, loading }: Leaderboar
           {/* 2nd Place */}
           <div className="flex flex-col items-center animate-fade-in">
             {topPerformers[1] ? (
-              <Link href={`/bonks/${topPerformers[1]._id}`} className="cursor-pointer transition-transform hover:scale-110">
+              <Link href={`/bifs/${topPerformers[1]._id}`} className="cursor-pointer transition-transform hover:scale-110">
               <div className="bg-white border border-gray-200 rounded-full p-0.5 mb-1 shadow-lg relative">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#c0c0c0] to-[#e0e0e0] opacity-30 animate-spin-slow"></div>
                 {topPerformers[1]?.imageUrl ? (
@@ -131,7 +131,7 @@ export default function LeaderboardPodium({ topPerformers, loading }: Leaderboar
             )}
             <div className="text-center">
               {topPerformers[1] ? (
-                <Link href={`/bonks/${topPerformers[1]._id}`} className="cursor-pointer hover:opacity-90 block">
+                <Link href={`/bifs/${topPerformers[1]._id}`} className="cursor-pointer hover:opacity-90 block">
                 <div className="bg-gray-100 w-24 h-20 flex flex-col items-center justify-center rounded-t-md shadow-md">
                   <div className="text-sm font-bold text-gray-800 truncate max-w-[80px]">{topPerformers[1]?.title}</div>
                   <div className="text-green-600 font-bold text-sm">+{topPerformers[1]?.metrics?.priceChangePercent.toFixed(2)}%</div>
@@ -158,7 +158,7 @@ export default function LeaderboardPodium({ topPerformers, loading }: Leaderboar
           {/* 1st Place */}
           <div className="flex flex-col items-center animate-fade-in-fast">
             {topPerformers[0] ? (
-              <Link href={`/bonks/${topPerformers[0]._id}`} className="cursor-pointer transition-transform hover:scale-110">
+              <Link href={`/bifs/${topPerformers[0]._id}`} className="cursor-pointer transition-transform hover:scale-110">
               <div className="bg-white border border-yellow-300 rounded-full p-0.5 mb-1 shadow-lg relative">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#ffd700] to-[#ffec8b] opacity-30 animate-spin-slow"></div>
                 {topPerformers[0]?.imageUrl ? (
@@ -190,7 +190,7 @@ export default function LeaderboardPodium({ topPerformers, loading }: Leaderboar
             )}
             <div className="text-center">
               {topPerformers[0] ? (
-                <Link href={`/bonks/${topPerformers[0]._id}`} className="cursor-pointer hover:opacity-90 block">
+                <Link href={`/bifs/${topPerformers[0]._id}`} className="cursor-pointer hover:opacity-90 block">
                 <div className="bg-yellow-50 w-28 h-24 flex flex-col items-center justify-center rounded-t-md shadow-md">
                   <div className="text-base font-bold text-gray-800 truncate max-w-[90px]">{topPerformers[0]?.title}</div>
                   <div className="text-green-600 font-bold text-sm">+{topPerformers[0]?.metrics?.priceChangePercent.toFixed(2)}%</div>
@@ -217,7 +217,7 @@ export default function LeaderboardPodium({ topPerformers, loading }: Leaderboar
           {/* 3rd Place */}
           <div className="flex flex-col items-center animate-fade-in">
             {topPerformers[2] ? (
-              <Link href={`/bonks/${topPerformers[2]._id}`} className="cursor-pointer transition-transform hover:scale-110">
+              <Link href={`/bifs/${topPerformers[2]._id}`} className="cursor-pointer transition-transform hover:scale-110">
               <div className="bg-white border border-gray-200 rounded-full p-0.5 mb-1 shadow-lg relative">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#cd7f32] to-[#e8ac7e] opacity-30 animate-spin-slow"></div>
                 {topPerformers[2]?.imageUrl ? (
@@ -249,7 +249,7 @@ export default function LeaderboardPodium({ topPerformers, loading }: Leaderboar
             )}
             <div className="text-center">
               {topPerformers[2] ? (
-                <Link href={`/bonks/${topPerformers[2]._id}`} className="cursor-pointer hover:opacity-90 block">
+                <Link href={`/bifs/${topPerformers[2]._id}`} className="cursor-pointer hover:opacity-90 block">
                 <div className="bg-orange-50 w-20 h-16 flex flex-col items-center justify-center rounded-t-md shadow-md">
                   <div className="text-sm font-bold text-gray-800 truncate max-w-[70px]">{topPerformers[2]?.title}</div>
                   <div className="text-green-600 font-bold text-sm">+{topPerformers[2]?.metrics?.priceChangePercent.toFixed(2)}%</div>

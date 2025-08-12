@@ -45,7 +45,7 @@ interface BundleDetails {
   };
 }
 
-export default function BonkDetailsPage() {
+export default function BifDetailsPage() {
   const params = useParams();
   const bundleId = params.id as string;
   
@@ -76,7 +76,7 @@ export default function BonkDetailsPage() {
         if (data.success && data.data) {
           setBundleDetails(data.data);
         } else {
-          setError(data.message || "Failed to fetch bonk details");
+          setError(data.message || "Failed to fetch BIF details");
         }
       } catch (err) {
         setError(`Error: ${err instanceof Error ? err.message : String(err)}`);
@@ -103,7 +103,7 @@ export default function BonkDetailsPage() {
       
       // If this bundle was updated, update the details
       if (updatedBundle) {
-        console.log('Updating bonk details with WebSocket data:', updatedBundle);
+        console.log('Updating BIF details with WebSocket data:', updatedBundle);
         
         // Store the updated values to avoid dependency issues
         const newCurrentPrice = updatedBundle.currentPrice;
@@ -134,7 +134,7 @@ export default function BonkDetailsPage() {
   }, [lastEvent, bundleId]);
 
   const handleDelete = async () => {
-    if (!bundleId || !confirm("Are you sure you want to delete this bonk?")) {
+    if (!bundleId || !confirm("Are you sure you want to delete this BIF?")) {
       return;
     }
     
@@ -162,7 +162,7 @@ export default function BonkDetailsPage() {
         // Redirect to home page after successful deletion
         window.location.href = "/";
       } else {
-        setDeleteError(data.message || "Failed to delete bonk");
+        setDeleteError(data.message || "Failed to delete BIF");
       }
     } catch (err) {
       setDeleteError(`Error: ${err instanceof Error ? err.message : String(err)}`);

@@ -62,7 +62,7 @@ export default function BundleHeader({ bundle, tokenCount, onDelete, deleteLoadi
                     priority
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-[#fff5eb] text-[#ff5c01]">
+                  <div className="w-full h-full flex items-center justify-center bg-green-50 text-green-600">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                     </svg>
@@ -88,7 +88,7 @@ export default function BundleHeader({ bundle, tokenCount, onDelete, deleteLoadi
                     href={`https://twitter.com/${bundle.twitterUsername.replace('@', '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#ff5c01] hover:text-[#e65400] font-bold"
+                    className="text-green-600 hover:text-green-700 font-bold"
                   >
                     {twitterUsername}
                   </a>
@@ -103,7 +103,7 @@ export default function BundleHeader({ bundle, tokenCount, onDelete, deleteLoadi
           
           {/* Right side: Token count */}
           <div>
-            <span className="inline-flex items-center px-4 py-2 text-sm font-bold bg-orange-500 text-white rounded-lg shadow-sm">
+            <span className="inline-flex items-center px-4 py-2 text-sm font-bold bg-green-600 text-white rounded-lg shadow-sm">
               {tokenCount} tokens
             </span>
           </div>

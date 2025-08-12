@@ -63,8 +63,8 @@ export default function BundleTokenGrid({ tokens, totalPrice }: BundleTokenGridP
                     />
                   </div>
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-[#fff5eb] flex items-center justify-center mr-3 shadow-sm">
-                    <span className="text-[#ff5c01] font-bold">{token.symbol.substring(0, 2)}</span>
+                  <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mr-3 shadow-sm">
+                    <span className="text-green-600 font-bold">{token.symbol.substring(0, 2)}</span>
                   </div>
                 )}
                 
@@ -87,9 +87,9 @@ export default function BundleTokenGrid({ tokens, totalPrice }: BundleTokenGridP
                 <div className="w-full bg-gray-200 rounded-full h-2.5">
                   <div 
                     className={`h-2.5 rounded-full ${
-                      weight > 30 ? 'bg-[#ff5c01]' : 
-                      weight > 15 ? 'bg-[#ff7a33]' : 
-                      'bg-[#ff9966]'
+                      weight > 30 ? 'bg-green-600' : 
+                      weight > 15 ? 'bg-green-500' : 
+                      'bg-green-400'
                     }`}
                     style={{ width: `${Math.min(100, weight)}%` }}
                   ></div>
@@ -100,7 +100,7 @@ export default function BundleTokenGrid({ tokens, totalPrice }: BundleTokenGridP
                 href={`https://solscan.io/token/${token.address}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs bg-[#fff5eb] text-[#ff5c01] hover:bg-[#ffead3] hover:text-[#e65400] px-3 py-2 rounded-md flex items-center justify-center transition-colors font-bold"
+                className="text-xs bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700 px-3 py-2 rounded-md flex items-center justify-center transition-colors font-bold"
               >
                 View on Solscan
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

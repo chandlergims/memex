@@ -19,11 +19,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Bonks",
+  title: "BIF",
   description: "Create and track token indexes on Solana",
   icons: {
-    icon: "/navbarlogo.png",
-    apple: "/navbarlogo.png",
+    icon: "/Untitled design (63).png",
+    apple: "/Untitled design (63).png",
   },
 };
 

@@ -68,7 +68,7 @@ export default function BundleDetailsStep({
           
           {/* Delete button removed as requested */}
         </div>
-        <span className="text-sm text-center text-gray-500">Bonks Image (Max 5MB)</span>
+        <span className="text-sm text-center text-gray-500">BIF Image (Max 5MB)</span>
         
         {imageError && (
           <p className="mt-1 text-sm text-red-600">{imageError}</p>
@@ -77,13 +77,13 @@ export default function BundleDetailsStep({
       
       <div className="space-y-2">
         <label className="block text-sm font-bold text-gray-700">
-          Bonks Name *
+          BIF Name *
         </label>
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Enter Bonks name (max 10 chars)"
+          placeholder="Enter BIF name (max 10 chars)"
           className="flex w-full h-10 px-3 py-2 text-sm border border-gray-100 bg-gray-50 rounded-md focus:outline-none"
           required
           maxLength={10}
@@ -95,7 +95,7 @@ export default function BundleDetailsStep({
       
       <div className="space-y-2">
         <label className="block text-sm font-bold text-gray-700">
-          Bonks Description *
+          BIF Description *
         </label>
         <div className="relative">
           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
@@ -108,7 +108,7 @@ export default function BundleDetailsStep({
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="The greatest Bonks ever created (max 20 chars)"
+            placeholder="The greatest BIF ever created (max 20 chars)"
             className="flex w-full h-10 pl-10 pr-3 py-2 text-sm border border-gray-100 bg-gray-50 rounded-md focus:outline-none"
             maxLength={20}
             required

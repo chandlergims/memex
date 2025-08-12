@@ -252,7 +252,7 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
               <span className="font-medium text-gray-700">
-                <span className="font-bold text-green-600">Bonks Index prices</span> <span className="font-bold">updated every 5 minutes</span>
+                <span className="font-bold text-green-600">BIF Index prices</span> <span className="font-bold">updated every 5 minutes</span>
                 <span className="ml-1 font-bold text-green-600">(<CountdownTimer intervalMinutes={5} />)</span>
               </span>
             </div>
@@ -344,7 +344,7 @@ export default function Home() {
               </div>
             ) : bundles.length === 0 ? (
               <div className="p-6 rounded-md text-center border border-gray-200 shadow-sm bg-white">
-                <div className="text-gray-800 font-bold text-lg">No Bonks created yet</div>
+                <div className="text-gray-800 font-bold text-lg">No BIF created yet</div>
               </div>
             ) : (
               <div className="min-h-[800px]">

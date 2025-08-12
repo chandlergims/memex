@@ -47,7 +47,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             <div className="bg-gray-50 rounded-lg p-4 text-center">
               <p className="text-sm text-gray-500 mb-1">Created</p>
               <p className="text-2xl font-bold text-gray-800">{bundles.length}</p>
-              <p className="text-xs text-gray-500">Bonks</p>
+              <p className="text-xs text-gray-500">BIFs</p>
             </div>
             
             <div className="bg-gray-50 rounded-lg p-4 text-center">
@@ -80,7 +80,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
               ) : (
                 <p className="text-2xl font-bold text-gray-800">-</p>
               )}
-              <p className="text-xs text-gray-500">Single Bonk</p>
+              <p className="text-xs text-gray-500">Single BIF</p>
             </div>
           </div>
           
