@@ -28,7 +28,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
       <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
         {/* Left Column - Profile Image */}
         <div className="flex flex-col items-center">
-          <div className="w-28 h-28 bg-[#ff5c01] rounded-full flex items-center justify-center text-white text-4xl font-bold shadow-md">
+          <div className="w-28 h-28 bg-green-600 rounded-full flex items-center justify-center text-white text-4xl font-bold shadow-md">
             {twitterUsername ? twitterUsername.charAt(0).toUpperCase() : 'B'}
           </div>
           
@@ -60,7 +60,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             
             <div className="bg-gray-50 rounded-lg p-4 text-center">
               <p className="text-sm text-gray-500 mb-1">Total Rewards</p>
-              <p className="text-2xl font-bold text-[#ff5c01]">$0</p>
+              <p className="text-2xl font-bold text-green-600">$0</p>
               <p className="text-xs text-gray-500">Earned</p>
             </div>
             
@@ -107,7 +107,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             <button
               onClick={updateSolanaAddress}
               disabled={isSavingAddress}
-              className="px-4 py-2 bg-[#ff5c01] text-white font-bold rounded-md hover:bg-[#e65400] transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap shadow-sm"
+              className="px-4 py-2 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap shadow-sm"
             >
               {isSavingAddress ? 'Saving...' : 'Save Address'}
             </button>

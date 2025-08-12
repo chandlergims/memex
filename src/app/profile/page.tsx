@@ -342,7 +342,7 @@ export default function ProfilePage() {
           <p className="text-gray-600 mb-6">You need to be signed in to view your profile and manage your Bonks.</p>
           <button
             onClick={login}
-            className="px-6 py-3 bg-[#ff5c01] text-white font-bold rounded-md hover:bg-[#e65400] transition-colors"
+            className="px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 transition-colors"
           >
             Connect Wallet
           </button>
@@ -353,8 +353,8 @@ export default function ProfilePage() {
   
   // Empty state for when no bundles are created
   const EmptyBundlesState = () => (
-    <div className="bg-[#fff5eb] p-8 rounded-xl text-center">
-      <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-[#ff5c01] mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div className="bg-green-50 p-8 rounded-xl text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-green-600 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
       <h2 className="text-xl font-bold text-gray-800 mb-2">No Bonks Created Yet</h2>
@@ -367,7 +367,7 @@ export default function ProfilePage() {
             (createButton as HTMLButtonElement).click();
           }
         }}
-        className="inline-flex items-center px-6 py-3 bg-[#ff5c01] text-white font-bold rounded-md hover:bg-[#e65400] transition-colors"
+        className="inline-flex items-center px-6 py-3 bg-green-600 text-white font-bold rounded-md hover:bg-green-700 transition-colors"
       >
         Create Your First Bonk
       </button>
@@ -394,7 +394,7 @@ export default function ProfilePage() {
           <div className="mb-8">
             <div className="flex justify-between items-center">
               <div className="flex space-x-4">
-                <div className="px-5 py-2 text-sm font-bold text-[#ff5c01] border-b-2 border-[#ff5c01]">
+                <div className="px-5 py-2 text-sm font-bold text-green-600 border-b-2 border-green-600">
                   YOUR BONKS
                 </div>
               </div>
@@ -404,7 +404,7 @@ export default function ProfilePage() {
                   <button 
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
-                    className="w-8 h-8 flex items-center justify-center bg-transparent text-gray-700 hover:text-[#ff5c01] disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                    className="w-8 h-8 flex items-center justify-center bg-transparent text-gray-700 hover:text-green-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
                     aria-label="Previous page"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -419,7 +419,7 @@ export default function ProfilePage() {
                   <button 
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(bundles.length / bundlesPerPage)))}
                     disabled={currentPage >= Math.ceil(bundles.length / bundlesPerPage)}
-                    className="w-8 h-8 flex items-center justify-center bg-transparent text-gray-700 hover:text-[#ff5c01] disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                    className="w-8 h-8 flex items-center justify-center bg-transparent text-gray-700 hover:text-green-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
                     aria-label="Next page"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -464,7 +464,7 @@ export default function ProfilePage() {
                     <button 
                       onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                       disabled={currentPage === 1}
-                      className="w-10 h-10 flex items-center justify-center bg-transparent text-gray-700 hover:text-[#ff5c01] disabled:opacity-30 cursor-pointer transition-colors"
+                      className="w-10 h-10 flex items-center justify-center bg-transparent text-gray-700 hover:text-green-600 disabled:opacity-30 cursor-pointer transition-colors"
                       aria-label="Previous page"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -479,7 +479,7 @@ export default function ProfilePage() {
                     <button 
                       onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(bundles.length / bundlesPerPage)))}
                       disabled={currentPage >= Math.ceil(bundles.length / bundlesPerPage)}
-                      className="w-10 h-10 flex items-center justify-center bg-transparent text-gray-700 hover:text-[#ff5c01] disabled:opacity-30 cursor-pointer transition-colors"
+                      className="w-10 h-10 flex items-center justify-center bg-transparent text-gray-700 hover:text-green-600 disabled:opacity-30 cursor-pointer transition-colors"
                       aria-label="Next page"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

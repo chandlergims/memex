@@ -248,12 +248,12 @@ export default function Home() {
           {/* Price Update Info Banner - Small and centered */}
           <div className="mb-4 mt-1 flex justify-center">
             <div className="inline-flex items-center gap-1 bg-[#fff5eb] px-3 py-1 rounded-md shadow-sm border border-[#ffead3] text-xs">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-[#ff5c01]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
               <span className="font-medium text-gray-700">
-                <span className="font-bold text-[#ff5c01]">Bonks Index prices</span> <span className="font-bold">updated every 5 minutes</span>
-                <span className="ml-1 font-bold text-[#ff5c01]">(<CountdownTimer intervalMinutes={5} />)</span>
+                <span className="font-bold text-green-600">Bonks Index prices</span> <span className="font-bold">updated every 5 minutes</span>
+                <span className="ml-1 font-bold text-green-600">(<CountdownTimer intervalMinutes={5} />)</span>
               </span>
             </div>
           </div>
@@ -267,7 +267,7 @@ export default function Home() {
                   <button 
                     className={`px-5 py-2 text-sm font-bold transition-all cursor-pointer border-b-2 ${
                       activeFilter === 'recent' 
-                        ? 'text-[#ff5c01] border-[#ff5c01]' 
+                        ? 'text-green-600 border-green-600' 
                         : 'text-gray-600 hover:text-gray-800 border-transparent'
                     }`}
                     onClick={() => setActiveFilter('recent')}
@@ -277,7 +277,7 @@ export default function Home() {
                   <button 
                     className={`px-5 py-2 text-sm font-bold transition-all cursor-pointer border-b-2 ${
                       activeFilter === 'highest' 
-                        ? 'text-[#ff5c01] border-[#ff5c01]' 
+                        ? 'text-green-600 border-green-600' 
                         : 'text-gray-600 hover:text-gray-800 border-transparent'
                     }`}
                     onClick={() => setActiveFilter('highest')}
@@ -287,7 +287,7 @@ export default function Home() {
                   <button 
                     className={`px-5 py-2 text-sm font-bold transition-all cursor-pointer border-b-2 ${
                       activeFilter === 'lowest' 
-                        ? 'text-[#ff5c01] border-[#ff5c01]' 
+                        ? 'text-green-600 border-green-600' 
                         : 'text-gray-600 hover:text-gray-800 border-transparent'
                     }`}
                     onClick={() => setActiveFilter('lowest')}
@@ -302,7 +302,7 @@ export default function Home() {
                     <button 
                       onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                       disabled={currentPage === 1}
-                      className="w-8 h-8 flex items-center justify-center bg-transparent text-gray-700 hover:text-[#ff5c01] disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                      className="w-8 h-8 flex items-center justify-center bg-transparent text-gray-700 hover:text-green-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
                       aria-label="Previous page"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -317,7 +317,7 @@ export default function Home() {
                     <button 
                       onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(bundles.filter(bundle => bundle.isActive !== false).length / bundlesPerPage)))}
                       disabled={currentPage >= Math.ceil(bundles.filter(bundle => bundle.isActive !== false).length / bundlesPerPage)}
-                      className="w-8 h-8 flex items-center justify-center bg-transparent text-gray-700 hover:text-[#ff5c01] disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
+                      className="w-8 h-8 flex items-center justify-center bg-transparent text-gray-700 hover:text-green-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
                       aria-label="Next page"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -365,7 +365,7 @@ export default function Home() {
                       <button 
                         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                         disabled={currentPage === 1}
-                        className="w-10 h-10 flex items-center justify-center bg-transparent text-gray-700 hover:text-[#ff5c01] disabled:opacity-30 cursor-pointer transition-colors"
+                        className="w-10 h-10 flex items-center justify-center bg-transparent text-gray-700 hover:text-green-600 disabled:opacity-30 cursor-pointer transition-colors"
                         aria-label="Previous page"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -380,7 +380,7 @@ export default function Home() {
                       <button 
                         onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(bundles.filter(bundle => bundle.isActive !== false).length / bundlesPerPage)))}
                         disabled={currentPage >= Math.ceil(bundles.filter(bundle => bundle.isActive !== false).length / bundlesPerPage)}
-                        className="w-10 h-10 flex items-center justify-center bg-transparent text-gray-700 hover:text-[#ff5c01] disabled:opacity-30 cursor-pointer transition-colors"
+                        className="w-10 h-10 flex items-center justify-center bg-transparent text-gray-700 hover:text-green-600 disabled:opacity-30 cursor-pointer transition-colors"
                         aria-label="Next page"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

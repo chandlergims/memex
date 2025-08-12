@@ -42,13 +42,13 @@ function CountdownTimer() {
   
   return (
     <div className="flex items-center justify-center">
-      <div className="flex items-center space-x-1 font-mono bg-gradient-to-r from-[#fff5eb] to-white px-4 py-2 rounded-md shadow-sm">
-        <span className="text-xl font-bold text-[#ff5c01]">{formatNumber(timeLeft.hours)}</span>
-        <span className="text-xl font-bold text-[#ff5c01]">:</span>
-        <span className="text-xl font-bold text-[#ff5c01]">{formatNumber(timeLeft.minutes)}</span>
-        <span className="text-xl font-bold text-[#ff5c01]">:</span>
-        <span className="text-xl font-bold text-[#ff5c01]">{formatNumber(timeLeft.seconds)}</span>
-      </div>
+        <div className="flex items-center space-x-1 font-mono bg-gradient-to-r from-green-50 to-white px-4 py-2 rounded-md shadow-sm">
+          <span className="text-xl font-bold text-green-600">{formatNumber(timeLeft.hours)}</span>
+          <span className="text-xl font-bold text-green-600">:</span>
+          <span className="text-xl font-bold text-green-600">{formatNumber(timeLeft.minutes)}</span>
+          <span className="text-xl font-bold text-green-600">:</span>
+          <span className="text-xl font-bold text-green-600">{formatNumber(timeLeft.seconds)}</span>
+        </div>
     </div>
   );
 }
@@ -283,11 +283,11 @@ export default function LeaderboardPage() {
               
               {/* Countdown Timer */}
               <div className="mt-2">
-                <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-md shadow-md border border-[#ff5c0120]">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-[#ff5c01]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-md shadow-md border border-green-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span className="font-bold text-[#ff5c01]">Competition Ends:</span> 
+                  <span className="font-bold text-green-600">Competition Ends:</span> 
                   <CountdownTimer />
                 </div>
               </div>
@@ -482,7 +482,7 @@ export default function LeaderboardPage() {
                             )}
                           </div>
                           <div className="ml-3">
-                            <div className="text-sm font-bold text-gray-900 group-hover:text-[#ff5c01] transition-colors">
+                            <div className="text-sm font-bold text-gray-900 group-hover:text-green-600 transition-colors">
                               {bundle.title}
                             </div>
                             <div className="text-xs text-gray-500">

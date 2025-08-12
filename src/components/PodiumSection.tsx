@@ -40,7 +40,7 @@ export default function PodiumSection({ topPerformers, loading, showLeaderboardL
           <div className="mt-2">
             <Link 
               href="/leaderboard" 
-              className="px-4 py-2 bg-gradient-to-r from-[#fff5eb] to-white rounded-full shadow-sm text-[#ff5c01] hover:shadow-md transition-all duration-300 text-sm font-bold inline-flex items-center border border-[#ff5c0120]"
+              className="px-4 py-2 bg-gradient-to-r from-green-50 to-white rounded-full shadow-sm text-green-600 hover:shadow-md transition-all duration-300 text-sm font-bold inline-flex items-center border border-green-200"
             >
               View Full Leaderboard
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

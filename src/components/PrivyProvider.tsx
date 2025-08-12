@@ -55,7 +55,7 @@ function AuthStateWrapper({ children }: { children: React.ReactNode }) {
 export default function PrivyProvider({ children }: PrivyProviderProps) {
   return (
     <PrivyAuthProvider
-      appId="cmblhg94p00gojl0mri44ttng"
+      appId="cme82l2c104cxjl0co9w1l8hp"
       config={{
         loginMethods: ['twitter'],
         appearance: {

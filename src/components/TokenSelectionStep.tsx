@@ -42,9 +42,9 @@ export default function TokenSelectionStep({
   return (
     <div className="space-y-4">
       {/* Requirements Card */}
-      <div className="bg-[#fff5eb] p-3 rounded-md border border-[#ffebdc] mb-4">
-        <h3 className="text-sm font-bold text-[#ff5c01] mb-2">Bonks Requirements</h3>
-        <ul className="text-xs text-[#ff7c31] space-y-1 ml-5 list-disc">
+      <div className="bg-green-50 p-3 rounded-md border border-green-200 mb-4">
+        <h3 className="text-sm font-bold text-green-600 mb-2">Bonks Requirements</h3>
+        <ul className="text-xs text-green-700 space-y-1 ml-5 list-disc">
           <li>Select between 5-20 tokens</li>
           <li>Currently selected: <span className="font-semibold">{selectedTokens.length}/20</span></li>
           <li>Status: <span className={`font-semibold ${selectedTokens.length < 5 ? 'text-yellow-600' : 'text-green-600'}`}>
@@ -71,7 +71,7 @@ export default function TokenSelectionStep({
             type="button"
             onClick={fetchTokenDetails}
             disabled={tokenLoading}
-            className="bg-[#fff5eb] text-[#ff5c01] px-3 py-2 rounded-md hover:bg-[#ffebdc] focus:outline-none disabled:opacity-50 whitespace-nowrap text-sm cursor-pointer"
+            className="bg-green-50 text-green-600 px-3 py-2 rounded-md hover:bg-green-100 focus:outline-none disabled:opacity-50 whitespace-nowrap text-sm cursor-pointer"
           >
             {tokenLoading ? "Loading..." : <span className="font-bold">Fetch</span>}
           </button>
@@ -87,7 +87,7 @@ export default function TokenSelectionStep({
           <div 
             className={`p-2 rounded-md mb-2 border cursor-pointer ${
               isTokenSelected(tokenDetails.address) 
-                ? 'bg-[#fff5eb] border-[#ff5c01]' 
+                ? 'bg-green-50 border-green-600' 
                 : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
             }`}
             onClick={() => isTokenSelected(tokenDetails.address) ? handleRemoveToken(tokenDetails.address) : handleAddToken(tokenDetails)}
@@ -152,7 +152,7 @@ export default function TokenSelectionStep({
                 key={token._id || token.address} 
                 className={`flex items-center justify-between p-2 rounded-md border cursor-pointer transition-colors ${
                   isTokenSelected(token.address) 
-                    ? 'bg-[#fff5eb] border-[#ff5c01]' 
+                    ? 'bg-green-50 border-green-600' 
                     : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
                 }`}
                 onClick={() => isTokenSelected(token.address) ? handleRemoveToken(token.address) : handleAddToken(token)}

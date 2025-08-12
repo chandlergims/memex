@@ -25,7 +25,7 @@ export default function LeaderboardTitle() {
   
   const renderStyledText = () => {
     return (
-      <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#ff5c01] to-[#ff9a01]">
+      <span className="bg-clip-text text-transparent bg-gradient-to-r from-green-500 to-green-700">
         {text}{bonksText}
       </span>
     );
@@ -36,7 +36,7 @@ export default function LeaderboardTitle() {
       <span ref={textRef} className="inline-block">
         {renderStyledText()}
       </span>
-      <span className={`border-r-2 border-[#ff5c01] h-6 ml-1 ${isComplete ? 'animate-blink' : ''}`}></span>
+      <span className={`border-r-2 border-green-600 h-6 ml-1 ${isComplete ? 'animate-blink' : ''}`}></span>
     </h2>
   );
 }

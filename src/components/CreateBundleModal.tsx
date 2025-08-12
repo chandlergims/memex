@@ -321,7 +321,7 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
       }}
     >
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-hidden flex flex-col">
-        <div className="flex flex-col gap-y-1.5 p-4 border-b-2 border-[#ff5c01]">
+        <div className="flex flex-col gap-y-1.5 p-4 border-b-2 border-green-600">
           <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold text-gray-800">
             {step === 1 ? "Create a Bonk" : "Select Tokens"}
@@ -338,11 +338,11 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
         {/* Progress indicator */}
         <div className="px-4 pt-4">
           <div className="w-full bg-gray-200 rounded-full h-2.5">
-            <div className="bg-[#ff5c01] h-2.5 rounded-full" style={{ width: step === 1 ? '50%' : '100%' }}></div>
+            <div className="bg-green-600 h-2.5 rounded-full" style={{ width: step === 1 ? '50%' : '100%' }}></div>
           </div>
           <div className="flex justify-between text-xs text-gray-500 mt-1">
-            <span className={step === 1 ? 'font-medium text-[#ff5c01]' : 'font-medium text-gray-700'}>Bonk Details</span>
-            <span className={step === 2 ? 'font-medium text-[#ff5c01]' : 'font-medium text-gray-700'}>Select Tokens</span>
+            <span className={step === 1 ? 'font-medium text-green-600' : 'font-medium text-gray-700'}>Bonk Details</span>
+            <span className={step === 2 ? 'font-medium text-green-600' : 'font-medium text-gray-700'}>Select Tokens</span>
           </div>
         </div>
 
@@ -426,7 +426,7 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
                 {step === 1 ? (
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-[#fff5eb] text-[#ff5c01] hover:bg-[#ffebdc] rounded-md transition-colors ml-auto cursor-pointer"
+                    className="px-4 py-2 bg-green-50 text-green-600 hover:bg-green-100 rounded-md transition-colors ml-auto cursor-pointer"
                   >
                     <span className="font-bold">Next</span>
                   </button>
@@ -442,7 +442,7 @@ export default function CreateBundleModal({ isOpen, onClose }: CreateBundleModal
                     <button
                       type="submit"
                       disabled={loading || selectedTokens.length < 5}
-                      className={`px-4 py-2 ${selectedTokens.length < 5 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : loading ? 'bg-[#fff5eb] text-[#ff8c51] cursor-wait' : 'bg-[#fff5eb] text-[#ff5c01] hover:bg-[#ffebdc] cursor-pointer'} rounded-md transition-colors`}
+                      className={`px-4 py-2 ${selectedTokens.length < 5 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : loading ? 'bg-green-50 text-green-500 cursor-wait' : 'bg-green-50 text-green-600 hover:bg-green-100 cursor-pointer'} rounded-md transition-colors`}
                     >
                       {loading ? "Creating..." : <span className="font-bold">Create</span>}
                     </button>
