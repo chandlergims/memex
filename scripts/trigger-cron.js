@@ -1,4 +1,5 @@
-import 'dotenv/config';
+require('dotenv').config({ path: '.env.local' });
+const fetch = require('node-fetch');
 
 (async () => {
   try {
