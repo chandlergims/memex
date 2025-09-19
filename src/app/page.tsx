@@ -4,11 +4,10 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useWebSocket } from "@/components/WebSocketProvider";
-import TimeCounter from "@/components/TimeCounter";
 import CountdownTimer from "@/components/CountdownTimer";
-import PodiumSection from "@/components/PodiumSection";
 import BundleCard from "@/components/BundleCard";
 import BundleCardSkeleton from "@/components/BundleCardSkeleton";
+import PodiumSection from "@/components/PodiumSection";
 
 interface TokenDetails {
   _id?: string;
@@ -53,7 +52,7 @@ export default function Home() {
   const [bundles, setBundles] = useState<BundleWithMetrics[]>([]);
   const [bundlesLoading, setBundlesLoading] = useState(true);
   const [bundlesError, setBundlesError] = useState("");
-  const [activeFilter, setActiveFilter] = useState<'recent' | 'highest' | 'lowest'>('recent');
+  const [activeFilter, setActiveFilter] = useState<'all' | 'approved'>('all');
   const [newBundleId, setNewBundleId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const bundlesPerPage = 21;
@@ -195,44 +194,22 @@ export default function Home() {
     }
   }, [lastEvent]);
 
-  // Get top 3 performing indexes for the podium
-  // Using useMemo to recalculate when bundles change (including WebSocket updates)
-  const topPerformers = useMemo(() => {
-    if (bundlesLoading || bundlesError) return [];
-    
-    // Even if there are no bundles, return an empty array but don't return early
-    if (bundles.length === 0) return [];
-    
-    // Filter bundles with positive price change and active status
-    const positiveBundles = bundles.filter(bundle => 
-      (bundle.metrics?.priceChangePercent || 0) > 0 &&
-      bundle.isActive !== false // Only show active bundles
-    );
-    
-    // Even if there are no positive bundles, return an empty array but don't return early
-    if (positiveBundles.length === 0) return [];
-    
-    // Sort bundles by price change percentage (highest first)
-    return [...positiveBundles]
-      .sort((a, b) => (b.metrics?.priceChangePercent || 0) - (a.metrics?.priceChangePercent || 0))
-      .slice(0, 3); // Get top 3
-  }, [bundles, bundlesLoading, bundlesError]);
   
   // Get sorted and paginated bundles for display
   const displayBundles = useMemo(() => {
     // Filter out inactive bundles
     const activeBundles = bundles.filter(bundle => bundle.isActive !== false);
     
+    if (activeFilter === 'approved') {
+      // For approved filter, return empty array (coming soon)
+      return [];
+    }
+    
     return activeBundles
       .slice()
       .sort((a, b) => {
-        if (activeFilter === 'recent') {
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        } else if (activeFilter === 'highest') {
-          return (b.metrics?.priceChangePercent || 0) - (a.metrics?.priceChangePercent || 0);
-        } else {
-          return (a.metrics?.priceChangePercent || 0) - (b.metrics?.priceChangePercent || 0);
-        }
+        // Sort by most recent for 'all' filter
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       })
       // Apply pagination
       .slice((currentPage - 1) * bundlesPerPage, currentPage * bundlesPerPage);
@@ -240,59 +217,55 @@ export default function Home() {
   
   return (
     <div className="min-h-screen bg-white">
-      <main className="container mx-auto py-10 px-4">
+      <main className="container mx-auto py-8 px-4">
         <div className="max-w-6xl mx-auto">
-          {/* Top Performers Podium Section */}
-          <PodiumSection topPerformers={topPerformers} loading={bundlesLoading} />
-          
-          {/* Price Update Info Banner - Small and centered */}
-          <div className="mb-4 mt-1 flex justify-center">
-            <div className="inline-flex items-center gap-1 bg-[#fff5eb] px-3 py-1 rounded-md shadow-sm border border-[#ffead3] text-xs">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              <span className="font-medium text-gray-700">
-                <span className="font-bold text-green-600">BIF Index prices</span> <span className="font-bold">updated every 5 minutes</span>
-                <span className="ml-1 font-bold text-green-600">(<CountdownTimer intervalMinutes={5} />)</span>
-              </span>
-            </div>
+          {/* Top Performing BIFs Section */}
+          <div className="mb-12">
+            <PodiumSection topPerformers={bundles.slice().sort((a, b) => (b.metrics?.priceChangePercent || 0) - (a.metrics?.priceChangePercent || 0)).slice(0, 3)} loading={bundlesLoading} />
           </div>
           
           {/* Token Bundles Section */}
           <div>
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-2xl font-bold text-black">Indexes</h2>
+              <Link 
+                href="/create"
+                className="px-4 py-2 bg-black text-white font-medium text-sm rounded-lg hover:bg-gray-800 transition-all duration-200 cursor-pointer"
+              >
+                + create
+              </Link>
+            </div>
+            
+            {/* Price Update Timer - Centered under Indexes */}
+            <div className="mb-4 flex justify-center">
+              <div className="inline-flex items-center gap-2 text-xs">
+                <span className="text-gray-500">Prices update every 5 minutes</span>
+                <span className="text-gray-700">(<CountdownTimer intervalMinutes={5} />)</span>
+              </div>
+            </div>
             
             <div className="mb-6">
               <div className="flex justify-between items-center">
-                <div className="flex space-x-4">
+                <div className="flex space-x-2">
                   <button 
-                    className={`px-5 py-2 text-sm font-bold transition-all cursor-pointer border-b-2 ${
-                      activeFilter === 'recent' 
-                        ? 'text-green-600 border-green-600' 
-                        : 'text-gray-600 hover:text-gray-800 border-transparent'
+                    className={`px-4 py-2 text-sm font-medium transition-all cursor-pointer rounded-lg ${
+                      activeFilter === 'all' 
+                        ? 'bg-gray-100 text-black' 
+                        : 'text-gray-600 hover:text-black hover:bg-gray-50'
                     }`}
-                    onClick={() => setActiveFilter('recent')}
+                    onClick={() => setActiveFilter('all')}
                   >
-                    RECENT
+                    All {bundles.filter(bundle => bundle.isActive !== false).length}
                   </button>
                   <button 
-                    className={`px-5 py-2 text-sm font-bold transition-all cursor-pointer border-b-2 ${
-                      activeFilter === 'highest' 
-                        ? 'text-green-600 border-green-600' 
-                        : 'text-gray-600 hover:text-gray-800 border-transparent'
+                    className={`px-4 py-2 text-sm font-medium transition-all cursor-pointer rounded-lg ${
+                      activeFilter === 'approved' 
+                        ? 'bg-gray-100 text-black' 
+                        : 'text-gray-600 hover:text-black hover:bg-gray-50'
                     }`}
-                    onClick={() => setActiveFilter('highest')}
+                    onClick={() => setActiveFilter('approved')}
                   >
-                    GAINERS
-                  </button>
-                  <button 
-                    className={`px-5 py-2 text-sm font-bold transition-all cursor-pointer border-b-2 ${
-                      activeFilter === 'lowest' 
-                        ? 'text-green-600 border-green-600' 
-                        : 'text-gray-600 hover:text-gray-800 border-transparent'
-                    }`}
-                    onClick={() => setActiveFilter('lowest')}
-                  >
-                    LOSERS
+                    Approved 0
                   </button>
                 </div>
                 
@@ -344,7 +317,16 @@ export default function Home() {
               </div>
             ) : bundles.length === 0 ? (
               <div className="p-6 rounded-md text-center border border-gray-200 shadow-sm bg-white">
-                <div className="text-gray-800 font-bold text-lg">No BIF created yet</div>
+                <div className="text-gray-800 font-bold text-lg">No Index created yet</div>
+              </div>
+            ) : activeFilter === 'approved' ? (
+              <div className="p-6 text-center">
+                <div className="max-w-sm mx-auto">
+                  <div className="text-gray-800 font-bold text-lg mb-2">Approved Indexes - Coming Soon</div>
+                  <div className="text-gray-500 text-xs">
+                    Curated, safe indexes for direct investment.
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="min-h-[800px]">

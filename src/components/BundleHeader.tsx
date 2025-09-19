@@ -46,24 +46,24 @@ export default function BundleHeader({ bundle, tokenCount, onDelete, deleteLoadi
 
   return (
     <div className="bg-white">
-      <div className="p-6">
+      <div className="p-4">
         <div className="flex items-start justify-between">
           {/* Left side: Bundle Image and Title */}
           <div className="flex items-start">
-            <div className="mr-6">
-              <div className="w-20 h-20 rounded-full overflow-hidden bg-white flex-shrink-0 border border-gray-200 shadow-sm">
+            <div className="mr-4">
+              <div className="w-16 h-16 rounded-full overflow-hidden bg-white flex-shrink-0 border border-gray-200 shadow-sm">
                 {bundle.imageUrl ? (
                   <Image 
                     src={bundle.imageUrl} 
                     alt={bundle.title}
-                    width={160}
-                    height={160}
+                    width={64}
+                    height={64}
                     className="w-full h-full object-cover"
                     priority
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-green-50 text-green-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="w-full h-full flex items-center justify-center bg-gray-50 text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                     </svg>
                   </div>
@@ -73,22 +73,22 @@ export default function BundleHeader({ bundle, tokenCount, onDelete, deleteLoadi
             
             <div>
               <div className="flex items-center">
-                <h1 className="text-2xl font-bold text-gray-900">{bundle.title}</h1>
-                <div className="ml-4 flex items-center text-sm text-gray-600">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <h1 className="text-xl font-bold text-black">{bundle.title}</h1>
+                <div className="ml-3 flex items-center text-xs text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <span className="font-medium">{formattedCreationDate}</span>
+                  <span>{formattedCreationDate}</span>
                 </div>
               </div>
               
-              <div className="text-gray-600 mt-2">
-                <span className="font-bold">Created by:</span> {bundle.twitterUsername && (
+              <div className="text-gray-600 mt-1 text-sm">
+                <span className="font-medium">Created by:</span> {bundle.twitterUsername && (
                   <a 
                     href={`https://twitter.com/${bundle.twitterUsername.replace('@', '')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-green-600 hover:text-green-700 font-bold"
+                    className="text-black hover:text-gray-700 font-medium ml-1"
                   >
                     {twitterUsername}
                   </a>
@@ -96,14 +96,14 @@ export default function BundleHeader({ bundle, tokenCount, onDelete, deleteLoadi
               </div>
               
               {bundle.description && (
-                <p className="text-gray-600 mt-2 max-w-2xl">{bundle.description}</p>
+                <p className="text-gray-600 mt-1 max-w-2xl text-sm">{bundle.description}</p>
               )}
             </div>
           </div>
           
           {/* Right side: Token count */}
           <div>
-            <span className="inline-flex items-center px-4 py-2 text-sm font-bold bg-green-600 text-white rounded-lg shadow-sm">
+            <span className="inline-flex items-center px-3 py-1 text-xs font-bold bg-black text-white rounded-md">
               {tokenCount} tokens
             </span>
           </div>

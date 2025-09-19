@@ -47,12 +47,12 @@ export default function BundleTokenGrid({ tokens, totalPrice }: BundleTokenGridP
         return (
           <div 
             key={token._id} 
-            className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden transition-all hover:shadow-md"
+            className="bg-white rounded-lg border border-gray-200 hover:border-gray-400 overflow-hidden transition-all duration-200"
           >
             <div className="p-5">
               <div className="flex items-center mb-4">
                 {token.logoURI ? (
-                  <div className="w-12 h-12 rounded-full overflow-hidden mr-3 border border-gray-200 shadow-sm">
+                  <div className="w-12 h-12 rounded-full overflow-hidden mr-3 border border-gray-200">
                     <img
                       src={token.logoURI}
                       alt={`${token.symbol} logo`}
@@ -63,8 +63,8 @@ export default function BundleTokenGrid({ tokens, totalPrice }: BundleTokenGridP
                     />
                   </div>
                 ) : (
-                  <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center mr-3 shadow-sm">
-                    <span className="text-green-600 font-bold">{token.symbol.substring(0, 2)}</span>
+                  <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                    <span className="text-gray-600 font-bold">{token.symbol.substring(0, 2)}</span>
                   </div>
                 )}
                 
@@ -86,11 +86,7 @@ export default function BundleTokenGrid({ tokens, totalPrice }: BundleTokenGridP
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2.5">
                   <div 
-                    className={`h-2.5 rounded-full ${
-                      weight > 30 ? 'bg-green-600' : 
-                      weight > 15 ? 'bg-green-500' : 
-                      'bg-green-400'
-                    }`}
+                    className="h-2.5 rounded-full bg-black"
                     style={{ width: `${Math.min(100, weight)}%` }}
                   ></div>
                 </div>
@@ -100,7 +96,7 @@ export default function BundleTokenGrid({ tokens, totalPrice }: BundleTokenGridP
                 href={`https://solscan.io/token/${token.address}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700 px-3 py-2 rounded-md flex items-center justify-center transition-colors font-bold"
+                className="text-xs bg-gray-100 text-black hover:bg-gray-200 px-3 py-2 rounded-md flex items-center justify-center transition-colors font-bold"
               >
                 View on Solscan
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

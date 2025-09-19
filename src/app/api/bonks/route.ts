@@ -38,25 +38,6 @@ export async function POST(request: NextRequest) {
 
     await dbConnect();
     
-    // Check if the user has already created 5 ACTIVE bonks
-    if (userId) {
-      const userBundleCount = await BundleModel.countDocuments({ userId, isActive: true });
-      if (userBundleCount >= 5) {
-        return NextResponse.json(
-          { success: false, message: 'You have reached the maximum limit of 5 active Bonks per user for this leaderboard session' },
-          { status: 400 }
-        );
-      }
-    } else if (twitterUsername) {
-      const userBundleCount = await BundleModel.countDocuments({ twitterUsername, isActive: true });
-      if (userBundleCount >= 5) {
-        return NextResponse.json(
-          { success: false, message: 'You have reached the maximum limit of 5 active Bonks per user for this leaderboard session' },
-          { status: 400 }
-        );
-      }
-    }
-
     // Verify all token addresses exist in the database
     const tokens = await TokenModel.find({
       address: { $in: tokenAddresses }

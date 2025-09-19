@@ -4,7 +4,6 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import PrivyProvider from "@/components/PrivyProvider";
 import WebSocketProvider from "@/components/WebSocketProvider";
-import LiveTickerBar from "@/components/LiveTickerBar";
 import Footer from "@/components/Footer";
 import ComingSoon from "@/components/ComingSoon";
 
@@ -19,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BIF",
+  title: "memex.fun | index funds",
   description: "Create and track token indexes on Solana",
   icons: {
     icon: "/Untitled design (63).png",
@@ -42,9 +41,7 @@ export default function RootLayout({
         <PrivyProvider>
           <WebSocketProvider>
             <Navbar />
-            <LiveTickerBar />
             {children}
-            <Footer />
             <ComingSoon isActive={isSiteActive} />
           </WebSocketProvider>
         </PrivyProvider>

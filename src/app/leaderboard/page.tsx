@@ -42,12 +42,12 @@ function CountdownTimer() {
   
   return (
     <div className="flex items-center justify-center">
-        <div className="flex items-center space-x-1 font-mono bg-gradient-to-r from-green-50 to-white px-4 py-2 rounded-md shadow-sm">
-          <span className="text-xl font-bold text-green-600">{formatNumber(timeLeft.hours)}</span>
-          <span className="text-xl font-bold text-green-600">:</span>
-          <span className="text-xl font-bold text-green-600">{formatNumber(timeLeft.minutes)}</span>
-          <span className="text-xl font-bold text-green-600">:</span>
-          <span className="text-xl font-bold text-green-600">{formatNumber(timeLeft.seconds)}</span>
+        <div className="flex items-center space-x-1 font-mono bg-gray-50 px-4 py-2 rounded-md border border-gray-200">
+          <span className="text-xl font-bold text-black">{formatNumber(timeLeft.hours)}</span>
+          <span className="text-xl font-bold text-black">:</span>
+          <span className="text-xl font-bold text-black">{formatNumber(timeLeft.minutes)}</span>
+          <span className="text-xl font-bold text-black">:</span>
+          <span className="text-xl font-bold text-black">{formatNumber(timeLeft.seconds)}</span>
         </div>
     </div>
   );
@@ -100,10 +100,15 @@ export default function LeaderboardPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [solanaAddress, setSolanaAddress] = useState<string>('');
+  const [isSavingAddress, setIsSavingAddress] = useState(false);
+  const [addressSaved, setAddressSaved] = useState(false);
+  const [addressError, setAddressError] = useState<string | null>(null);
   const bundlesPerPage = 50;
   
   // Get Twitter username from Privy
   const twitterUsername = user?.twitter?.username;
+  const userId = user?.id;
 
   // Function to fetch bundles
   const fetchBundles = useCallback(async () => {
@@ -158,6 +163,86 @@ export default function LeaderboardPage() {
     fetchBundles();
   }, [fetchBundles]);
   
+  // Function to fetch user data
+  const fetchUserData = useCallback(async () => {
+    if (!authenticated || !userId) return;
+    
+    try {
+      const response = await fetch(`/api/users?userId=${userId}`);
+      
+      // If we get a 404, it means the user doesn't exist yet, which is fine
+      if (response.status === 404) {
+        console.log("User not found in database yet. Will be created on first update.");
+        return;
+      }
+      
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.success && data.data) {
+        // Set Solana address if it exists
+        if (data.data.solanaAddress) {
+          setSolanaAddress(data.data.solanaAddress);
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+    }
+  }, [authenticated, userId]);
+  
+  // Function to update Solana address
+  const updateSolanaAddress = async () => {
+    if (!authenticated || !userId) return;
+    
+    // Basic validation for Solana address
+    if (!solanaAddress) {
+      setAddressError("Please enter a Solana address");
+      return;
+    }
+    
+    // Simple format validation (this is basic, a real app would need more robust validation)
+    if (solanaAddress.length < 32 || !solanaAddress.match(/^[1-9A-HJ-NP-Za-km-z]{32,44}$/)) {
+      setAddressError("Please enter a valid Solana address");
+      return;
+    }
+    
+    setAddressError(null);
+    setIsSavingAddress(true);
+    
+    try {
+      const response = await fetch("/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId,
+          solanaAddress
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setAddressSaved(true);
+        setTimeout(() => setAddressSaved(false), 3000);
+      } else {
+        setAddressError(data.message || "Failed to save address");
+      }
+    } catch (err) {
+      setAddressError(`Error: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setIsSavingAddress(false);
+    }
+  };
+
   // Check if the user is an admin
   useEffect(() => {
     if (authenticated && twitterUsername) {
@@ -172,6 +257,13 @@ export default function LeaderboardPage() {
       }
     }
   }, [authenticated, twitterUsername]);
+  
+  // Fetch user data on component mount
+  useEffect(() => {
+    if (authenticated) {
+      fetchUserData();
+    }
+  }, [authenticated, fetchUserData]);
   
   // Use the WebSocket context for real-time updates
   const { lastEvent } = useWebSocket();
@@ -272,22 +364,16 @@ export default function LeaderboardPage() {
     <div className="min-h-screen bg-white">
       <main className="container mx-auto py-10 px-4">
         <div className="max-w-4xl mx-auto">
-          {/* Header with subtle background */}
-          <div className="relative mb-0 bg-gradient-to-r from-[#fff5eb20] to-transparent rounded-xl p-6">
-            {/* Daily Bonks Title */}
+          {/* Header */}
+          <div className="relative mb-0 p-6">
+            {/* Title */}
             <div className="text-center mb-8">
-              <div className="inline-block relative">
-                <LeaderboardTitle />
-                <div className="absolute -top-1 -left-2 -right-2 h-10 bg-gradient-to-r from-[#fff5eb00] via-[#fff5eb40] to-[#fff5eb00] rounded-full animate-shine"></div>
-              </div>
+              <LeaderboardTitle />
               
               {/* Countdown Timer */}
-              <div className="mt-2">
-                <div className="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-md shadow-md border border-green-200">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span className="font-bold text-green-600">Competition Ends:</span> 
+              <div className="mt-4">
+                <div className="inline-flex items-center gap-2">
+                  <span className="font-bold text-black">Competition Ends:</span> 
                   <CountdownTimer />
                 </div>
               </div>
@@ -372,6 +458,33 @@ export default function LeaderboardPage() {
                 />
               )}
             </div>
+            
+            {/* Solana Address Section - Only show when authenticated */}
+            {authenticated && (
+              <div className="mt-4 max-w-sm mx-auto">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="text"
+                    value={solanaAddress}
+                    onChange={(e) => setSolanaAddress(e.target.value)}
+                    placeholder="Solana address for payouts"
+                    className="flex-1 px-3 py-1.5 border border-gray-300 rounded text-xs focus:outline-none focus:border-gray-400"
+                  />
+                  <button
+                    onClick={updateSolanaAddress}
+                    disabled={isSavingAddress}
+                    className="px-3 py-1.5 bg-black text-white text-xs font-medium rounded hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    {isSavingAddress ? '...' : 'Save'}
+                  </button>
+                </div>
+                {(addressError || addressSaved) && (
+                  <div className={`text-xs mt-1 text-center ${addressError ? 'text-red-600' : 'text-green-600'}`}>
+                    {addressError || 'Saved!'}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           
           {bundlesLoading ? (
@@ -444,8 +557,8 @@ export default function LeaderboardPage() {
               </div>
               
               <div className="space-y-4 py-2 px-1" style={{ maxHeight: '70vh', overflowY: 'auto' }}>
-                {displayBundles.length > 0 ? (
-                  displayBundles.map((bundle, index) => {
+                {/* Show actual bundles */}
+                {displayBundles.map((bundle, index) => {
                   const rank = (currentPage - 1) * bundlesPerPage + index + 4; // Start from rank 4 (since top 3 are in podium)
                   return (
                     <div 
@@ -463,7 +576,7 @@ export default function LeaderboardPage() {
                           {rank}
                         </div>
                         
-                        <Link href={`/bonks/${bundle._id}`} className="flex items-center group">
+                        <Link href={`/index/${bundle._id}`} className="flex items-center group">
                           <div className="flex-shrink-0 h-10 w-10 relative">
                             {bundle.imageUrl ? (
                               <Image 
@@ -482,7 +595,7 @@ export default function LeaderboardPage() {
                             )}
                           </div>
                           <div className="ml-3">
-                            <div className="text-sm font-bold text-gray-900 group-hover:text-green-600 transition-colors">
+                            <div className="text-sm font-bold text-gray-900 group-hover:text-black transition-colors">
                               {bundle.title}
                             </div>
                             <div className="text-xs text-gray-500">
@@ -509,10 +622,59 @@ export default function LeaderboardPage() {
                       </div>
                     </div>
                   );
-                })
-                ) : (
-                  <div className="py-8"></div>
-                )}
+                })}
+                
+                {/* Show placeholder positions if we have fewer than 10 total positions */}
+                {Array.from({ length: Math.max(0, 10 - (topPerformers.length + displayBundles.length)) }, (_, index) => {
+                  const rank = topPerformers.length + displayBundles.length + index + 1;
+                  return (
+                    <div 
+                      key={`placeholder-${rank}`}
+                      className="bg-white rounded-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] p-4 flex items-center justify-between opacity-50"
+                    >
+                      {/* Left section: Rank and Empty Info */}
+                      <div className="flex items-center">
+                        <div className="flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-gray-100 text-gray-400 font-bold text-sm">
+                          {rank}
+                        </div>
+                        
+                        <div className="flex items-center">
+                          <div className="flex-shrink-0 h-10 w-10 relative">
+                            <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-300">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                              </svg>
+                            </div>
+                          </div>
+                          <div className="ml-3">
+                            <div className="text-sm font-bold text-gray-400">
+                              Empty
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              0 tokens
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {/* Right section: Empty Stats and Prize */}
+                      <div className="flex items-center">
+                        <div className="flex flex-col items-end mr-6">
+                          <span className="text-xs text-gray-400 mb-0.5">Gain</span>
+                          <span className="text-sm font-bold text-gray-400">
+                            -
+                          </span>
+                        </div>
+                        <div className="flex flex-col items-end min-w-[60px]">
+                          <span className="text-xs text-gray-400 mb-0.5">Prize</span>
+                          <span className="text-sm font-bold text-gray-400">
+                            {getPrizeAmount(rank)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
               
               {/* Pagination */}

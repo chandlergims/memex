@@ -41,7 +41,7 @@ export default function BundleStats({ metrics }: BundleStatsProps) {
     const color = isPositive ? 'text-green-600' : isNegative ? 'text-red-600' : 'text-gray-600';
     
     return (
-      <div className={`text-2xl font-bold flex items-center ${color}`}>
+      <div className={`text-lg font-bold flex items-center ${color}`}>
         {isPositive ? (
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="mr-1" viewBox="0 0 16 16">
             <path fillRule="evenodd" d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z"/>
@@ -57,36 +57,24 @@ export default function BundleStats({ metrics }: BundleStatsProps) {
   };
 
   return (
-    <div className="p-6 bg-white">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-green-50 p-6 rounded-lg border border-green-200 shadow-sm">
-          <div className="text-sm font-bold text-green-600 mb-2">Initial Price</div>
-          <div className="text-2xl font-bold text-gray-800">
+    <div className="p-4 bg-white">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
+          <div className="text-xs font-bold text-gray-700 mb-1">Initial Price</div>
+          <div className="text-lg font-bold text-black">
             {formatPrice(metrics.initialPrice)}
           </div>
         </div>
         
-        <div className="bg-green-50 p-6 rounded-lg border border-green-200 shadow-sm">
-          <div className="text-sm font-bold text-green-600 mb-2">Current Price</div>
-          <div className="text-2xl font-bold text-gray-800">
+        <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
+          <div className="text-xs font-bold text-gray-700 mb-1">Current Price</div>
+          <div className="text-lg font-bold text-black">
             {formatPrice(metrics.currentPrice)}
           </div>
         </div>
         
-        <div className={`p-6 rounded-lg border shadow-sm ${
-          metrics.priceChangePercent > 0 
-            ? 'bg-green-50 border-green-100' 
-            : metrics.priceChangePercent < 0 
-              ? 'bg-red-50 border-red-100' 
-              : 'bg-gray-50 border-gray-100'
-        }`}>
-          <div className={`text-sm font-bold mb-2 ${
-            metrics.priceChangePercent > 0 
-              ? 'text-green-700' 
-              : metrics.priceChangePercent < 0 
-                ? 'text-red-700' 
-                : 'text-gray-700'
-          }`}>Performance</div>
+        <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
+          <div className="text-xs font-bold text-gray-700 mb-1">Performance</div>
           {renderPriceChange(metrics.priceChangePercent)}
         </div>
       </div>

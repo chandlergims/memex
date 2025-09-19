@@ -45,7 +45,7 @@ interface BundleDetails {
   };
 }
 
-export default function BifDetailsPage() {
+export default function IndexDetailsPage() {
   const params = useParams();
   const bundleId = params.id as string;
   
@@ -76,7 +76,7 @@ export default function BifDetailsPage() {
         if (data.success && data.data) {
           setBundleDetails(data.data);
         } else {
-          setError(data.message || "Failed to fetch BIF details");
+          setError(data.message || "Failed to fetch Index details");
         }
       } catch (err) {
         setError(`Error: ${err instanceof Error ? err.message : String(err)}`);
@@ -103,7 +103,7 @@ export default function BifDetailsPage() {
       
       // If this bundle was updated, update the details
       if (updatedBundle) {
-        console.log('Updating BIF details with WebSocket data:', updatedBundle);
+        console.log('Updating Index details with WebSocket data:', updatedBundle);
         
         // Store the updated values to avoid dependency issues
         const newCurrentPrice = updatedBundle.currentPrice;
@@ -134,7 +134,7 @@ export default function BifDetailsPage() {
   }, [lastEvent, bundleId]);
 
   const handleDelete = async () => {
-    if (!bundleId || !confirm("Are you sure you want to delete this BIF?")) {
+    if (!bundleId || !confirm("Are you sure you want to delete this Index?")) {
       return;
     }
     
@@ -162,7 +162,7 @@ export default function BifDetailsPage() {
         // Redirect to home page after successful deletion
         window.location.href = "/";
       } else {
-        setDeleteError(data.message || "Failed to delete BIF");
+        setDeleteError(data.message || "Failed to delete Index");
       }
     } catch (err) {
       setDeleteError(`Error: ${err instanceof Error ? err.message : String(err)}`);

@@ -158,7 +158,7 @@ export default function LiveTickerBar() {
             <div key={bundle._id} className="ticker-item">
               <div className="ticker-content">
                 <Link 
-                  href={`/bifs/${bundle._id}`}
+                  href={`/index/${bundle._id}`}
                   className="inline-flex items-center"
                 >
                   {bundle.imageUrl && (
@@ -187,7 +187,7 @@ export default function LiveTickerBar() {
             <div key={`dup-${bundle._id}`} className="ticker-item">
               <div className="ticker-content">
                 <Link 
-                  href={`/bifs/${bundle._id}`}
+                  href={`/index/${bundle._id}`}
                   className="inline-flex items-center"
                 >
                   {bundle.imageUrl && (

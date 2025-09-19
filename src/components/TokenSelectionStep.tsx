@@ -43,7 +43,7 @@ export default function TokenSelectionStep({
     <div className="space-y-4">
       {/* Requirements Card */}
       <div className="bg-green-50 p-3 rounded-md border border-green-200 mb-4">
-        <h3 className="text-sm font-bold text-green-600 mb-2">Bonks Requirements</h3>
+        <h3 className="text-sm font-bold text-green-600 mb-2">Index Requirements</h3>
         <ul className="text-xs text-green-700 space-y-1 ml-5 list-disc">
           <li>Select between 5-20 tokens</li>
           <li>Currently selected: <span className="font-semibold">{selectedTokens.length}/20</span></li>
