@@ -75,7 +75,7 @@ const Navbar = () => {
               >
                 {twitterUsername ? (
                   <>
-                    <span className="text-sm font-medium">@{twitterUsername}</span>
+                    <span className="text-sm font-medium">{twitterUsername}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
@@ -92,7 +92,7 @@ const Navbar = () => {
                     <div className="flex items-center">
                       <div>
                         <div className="text-sm font-semibold text-black">
-                          {twitterUsername ? `@${twitterUsername}` : 'User'}
+                          {twitterUsername ? `${twitterUsername}` : 'User'}
                         </div>
                       </div>
                     </div>
@@ -134,7 +134,7 @@ const Navbar = () => {
               onClick={login}
               className="px-5 py-2 bg-black text-white font-medium text-sm rounded-lg hover:bg-gray-800 transition-all duration-200 cursor-pointer"
             >
-              connect wallet
+              connect x
             </button>
           )}
         </div>

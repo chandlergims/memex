@@ -28,9 +28,7 @@ export default function BundleCard({ bundle, isNew = false }: BundleCardProps) {
   return (
     <Link 
       href={`/index/${bundle._id}`}
-      className={`flex flex-col justify-between h-[120px] bg-white rounded-[18px] p-4 border border-gray-200 hover:bg-gray-50 hover:border-gray-400 active:translate-y-[1px] transition-all duration-200 ${
-        isNew ? 'animate-shake border-green-300 shadow-lg' : ''
-      }`}
+      className="flex flex-col justify-between h-[120px] bg-white rounded-[18px] p-4 border border-gray-200 hover:bg-gray-50 hover:border-gray-400 active:translate-y-[1px] transition-all duration-200"
     >
       {/* Top section with image, title, and percentage */}
       <div className="flex items-start gap-3 flex-1 min-h-0">
